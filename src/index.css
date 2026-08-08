@@ -1,0 +1,244 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #F5F7FA;
+    color: #111827;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F0F2F7;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #C7D2FE;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #818CF8;
+  }
+
+  ::selection {
+    background: rgba(99, 102, 241, 0.15);
+    color: #111827;
+  }
+}
+
+@layer components {
+
+  /* Light glass cards */
+  .glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(221, 225, 235, 0.9);
+  }
+
+  .glass-lighter {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(221, 225, 235, 0.7);
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #8B5CF6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-blue {
+    background: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Glow effects */
+  .glow-ring {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2), 0 0 16px rgba(99, 102, 241, 0.1);
+  }
+
+  .glow-ring:hover {
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 24px rgba(99, 102, 241, 0.15);
+  }
+
+  /* Shimmer */
+  .shimmer {
+    background: linear-gradient(90deg,
+        rgba(232, 236, 244, 0) 0%,
+        rgba(99, 102, 241, 0.05) 50%,
+        rgba(232, 236, 244, 0) 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+  }
+
+  /* Top gradient line */
+  .gradient-border-top {
+    position: relative;
+  }
+
+  .gradient-border-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #6366F1, #8B5CF6, transparent);
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Focus ring */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:ring-offset-1 focus:ring-offset-white;
+  }
+
+  /* Card base */
+  .card {
+    background: #FFFFFF;
+    border: 1px solid #DDE1EB;
+    border-radius: 1rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04);
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(99, 102, 241, 0.08);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* KaTeX math styling */
+.katex {
+  font-size: 1em;
+  color: #4F46E5;
+}
+
+.katex-display {
+  margin: 1.2em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1em;
+  background: #F0F2F7;
+  border-radius: 0.5rem;
+  border: 1px solid #DDE1EB;
+}
+
+/* Code highlighting overrides */
+pre {
+  margin: 0 !important;
+}
+
+/* Markdown content styling */
+.prose-scholera h1,
+.prose-scholera h2,
+.prose-scholera h3 {
+  color: #111827;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.prose-scholera p {
+  color: #374151;
+  line-height: 1.75;
+  margin-bottom: 0.875em;
+}
+
+.prose-scholera strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.prose-scholera ul,
+.prose-scholera ol {
+  color: #374151;
+  padding-left: 1.5em;
+  margin-bottom: 0.875em;
+}
+
+.prose-scholera li {
+  margin-bottom: 0.35em;
+}
+
+.prose-scholera table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: 0.9em;
+}
+
+.prose-scholera th {
+  background: rgba(99, 102, 241, 0.08);
+  color: #4F46E5;
+  font-weight: 600;
+  padding: 0.6em 1em;
+  text-align: left;
+  border: 1px solid #DDE1EB;
+}
+
+.prose-scholera td {
+  padding: 0.55em 1em;
+  border: 1px solid #DDE1EB;
+  color: #374151;
+}
+
+.prose-scholera tr:nth-child(even) td {
+  background: #F5F7FA;
+}
+
+.prose-scholera code:not(pre code) {
+  background: rgba(99, 102, 241, 0.08);
+  color: #4F46E5;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875em;
+  border: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+.prose-scholera blockquote {
+  border-left: 3px solid #6366F1;
+  padding-left: 1em;
+  color: #6B7280;
+  font-style: italic;
+  margin: 1em 0;
+  background: #F5F7FA;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
