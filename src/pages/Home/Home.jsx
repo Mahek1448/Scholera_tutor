@@ -67,33 +67,46 @@ export default function Home() {
                 </motion.div>
 
                 {/* Dashboard Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                    {/* Row 1: Streak + Today Progress */}
-                    <div className="col-span-1 md:col-span-2 xl:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 items-stretch">
+
+                    {/* ROW 1 — Study Streak + Today's Progress */}
+
+                    {/* Study Streak */}
+                    <div className="col-span-1 md:col-span-2 xl:col-span-3 h-full">
                         <StudyStreakCard />
                     </div>
-                    <div className="col-span-1">
+
+                    {/* Today's Progress */}
+                    <div className="col-span-1 h-full">
                         <TodayProgressCard />
                     </div>
 
-                    {/* Row 2: Heatmap + Side cards */}
-                    <div className="col-span-1 md:col-span-2 xl:col-span-2">
+                    {/* Heatmap */}
+                    <div className="col-span-1 md:col-span-2 xl:col-span-2 h-full">
                         <HeatmapCard />
                     </div>
-                    <div className="col-span-1 flex flex-col gap-4">
+
+                    {/* Continue Learning */}
+                    <div className="col-span-1 h-full">
                         <ContinueLearningCard />
+                    </div>
+
+                    {/* Topics Ahead */}
+                    <div className="col-span-1 h-full">
                         <TopicsLeftCard />
                     </div>
 
-                    {/* Row 3: Learning Map (full width) */}
-                    <div className="col-span-1 md:col-span-2 xl:col-span-3">
+
+                    {/* ROW 3 — Learning Map */}
+
+                    <div className="col-span-1 md:col-span-2 xl:col-span-4">
                         <LearningMapCard />
                     </div>
-                </div>
-            </div>
 
-            {/* Floating Tutor button */}
-            <TutorFAB />
+                </div>
+                {/* Floating Tutor button */}
+                <TutorFAB />
+            </div>
         </motion.div>
     )
 }

@@ -18,7 +18,7 @@ export default function TopicsLeftCard() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25, duration: 0.4 }}
-            className="card p-4 flex-1"
+            className="card p-4 h-full"
         >
             <div className="flex items-center justify-between mb-3">
                 <div>

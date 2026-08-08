@@ -1,5 +1,9 @@
 import { motion } from 'framer-motion'
-import { BookOpen, ArrowRight } from 'lucide-react'
+import {
+    BookOpen,
+    ArrowRight,
+    Clock3
+} from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
 const lastTopic = {
@@ -17,50 +21,258 @@ export default function ContinueLearningCard() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="card p-4"
+            className="card p-5 h-full flex flex-col"
         >
-            <div className="flex items-start gap-3">
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{ background: 'rgba(26,158,109,0.1)', border: '1px solid rgba(26,158,109,0.2)' }}>
-                    <BookOpen size={15} color="#1A9E6D" />
+
+            {/* HEADER */}
+            <div className="flex items-center gap-3">
+
+                <div
+                    className="
+                        w-10
+                        h-10
+                        rounded-xl
+                        flex
+                        items-center
+                        justify-center
+                        flex-shrink-0
+                    "
+                    style={{
+                        background: 'rgba(26,158,109,0.1)',
+                        border: '1px solid rgba(26,158,109,0.2)'
+                    }}
+                >
+                    <BookOpen
+                        size={17}
+                        color="#1A9E6D"
+                    />
                 </div>
-                <div className="flex-1 min-w-0">
-                    <div className="text-[10px] font-medium mb-0.5" style={{ color: 'var(--text-muted)' }}>
-                        Continue from where you left off
+
+                <div className="min-w-0 flex-1">
+
+                    <div
+                        className="text-[10px] font-medium mb-0.5"
+                        style={{
+                            color: 'var(--text-muted)'
+                        }}
+                    >
+                        Continue learning
                     </div>
-                    <div className="text-sm font-semibold truncate" style={{ color: 'var(--text-primary)' }}>
+
+                    <div
+                        className="text-base font-semibold truncate"
+                        style={{
+                            color: 'var(--text-primary)'
+                        }}
+                    >
                         {lastTopic.title}
                     </div>
-                    <div className="text-[10px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
-                        {lastTopic.subtitle} · {lastTopic.timeSpent} spent
-                    </div>
 
-                    {/* Progress bar */}
-                    <div className="mt-2.5 flex items-center gap-2">
-                        <div className="flex-1 h-1.5 rounded-full" style={{ background: 'var(--surface-2)' }}>
-                            <div
-                                className="h-1.5 rounded-full transition-all"
-                                style={{ width: `${lastTopic.progress}%`, background: 'linear-gradient(90deg, #1A9E6D, #38B985)' }}
-                            />
-                        </div>
-                        <span className="text-[10px] font-medium flex-shrink-0" style={{ color: 'var(--text-muted)' }}>
-                            {lastTopic.progress}%
-                        </span>
-                    </div>
                 </div>
+
             </div>
 
-            <motion.button
-                whileHover={{ x: 2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => navigate('/tutor')}
-                className="mt-3 w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all"
-                style={{ background: 'rgba(26,158,109,0.07)', border: '1px solid rgba(26,158,109,0.18)', color: '#137F57' }}
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(26,158,109,0.12)'}
-                onMouseLeave={e => e.currentTarget.style.background = 'rgba(26,158,109,0.07)'}
+
+            {/* LESSON INFORMATION */}
+            <div className="mt-4">
+
+                <div className="flex items-center justify-between">
+
+                    <span
+                        className="text-[11px]"
+                        style={{
+                            color: 'var(--text-muted)'
+                        }}
+                    >
+                        {lastTopic.subtitle}
+                    </span>
+
+                    <div className="flex items-center gap-1.5">
+
+                        <Clock3
+                            size={12}
+                            style={{
+                                color: 'var(--text-muted)'
+                            }}
+                        />
+
+                        <span
+                            className="text-[10px]"
+                            style={{
+                                color: 'var(--text-muted)'
+                            }}
+                        >
+                            {lastTopic.timeSpent} spent
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                {/* PROGRESS */}
+                <div className="mt-4">
+
+                    <div className="flex items-center justify-between mb-1.5">
+
+                        <span
+                            className="text-[10px]"
+                            style={{
+                                color: 'var(--text-muted)'
+                            }}
+                        >
+                            Lecture progress
+                        </span>
+
+                        <span
+                            className="text-[11px] font-semibold"
+                            style={{
+                                color: '#137F57'
+                            }}
+                        >
+                            {lastTopic.progress}%
+                        </span>
+
+                    </div>
+
+                    <div
+                        className="w-full h-2 rounded-full"
+                        style={{
+                            background: 'var(--surface-2)'
+                        }}
+                    >
+
+                        <motion.div
+                            initial={{ width: 0 }}
+                            animate={{
+                                width: `${lastTopic.progress}%`
+                            }}
+                            transition={{
+                                duration: 0.7,
+                                delay: 0.25
+                            }}
+                            className="h-2 rounded-full"
+                            style={{
+                                background:
+                                    'linear-gradient(90deg, #1A9E6D, #38B985)'
+                            }}
+                        />
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* CONTINUE CONTEXT */}
+            <div
+                className="
+                    mt-4
+                    px-3.5
+                    py-3
+                    rounded-xl
+                    flex
+                    items-center
+                    justify-between
+                "
+                style={{
+                    background: 'rgba(26,158,109,0.045)',
+                    border: '1px solid rgba(26,158,109,0.12)'
+                }}
             >
-                Continue with Tutor <ArrowRight size={12} />
+
+                <div>
+
+                    <div
+                        className="text-[10px] font-medium"
+                        style={{
+                            color: 'var(--text-primary)'
+                        }}
+                    >
+                        Pick up where you left off
+                    </div>
+
+                    <div
+                        className="text-[10px] mt-0.5"
+                        style={{
+                            color: 'var(--text-muted)'
+                        }}
+                    >
+                        Continue from Slide 14
+                    </div>
+
+                </div>
+
+                <span
+                    className="text-[10px] font-semibold"
+                    style={{
+                        color: '#137F57'
+                    }}
+                >
+                    38% left
+                </span>
+
+            </div>
+
+
+            {/* BUTTON */}
+            <motion.button
+                whileHover={{
+                    x: 2,
+                    boxShadow:
+                        '0 5px 14px rgba(26,158,109,0.12)'
+                }}
+
+                whileTap={{
+                    scale: 0.98
+                }}
+
+                onClick={() => navigate('/tutor')}
+
+                className="
+                    mt-4
+                    w-full
+                    flex
+                    items-center
+                    justify-center
+                    gap-1.5
+                    px-3
+                    py-2.5
+                    rounded-xl
+                    text-xs
+                    font-semibold
+                    transition-all
+                "
+
+                style={{
+                    background:
+                        'rgba(26,158,109,0.07)',
+
+                    border:
+                        '1px solid rgba(26,158,109,0.18)',
+
+                    color:
+                        '#137F57'
+                }}
+
+                onMouseEnter={e => {
+                    e.currentTarget.style.background =
+                        'rgba(26,158,109,0.12)'
+                }}
+
+                onMouseLeave={e => {
+                    e.currentTarget.style.background =
+                        'rgba(26,158,109,0.07)'
+                }}
+            >
+
+                Continue with Tutor
+
+                <ArrowRight size={13} />
+
             </motion.button>
+
         </motion.div>
     )
 }
