@@ -44,7 +44,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                             </div>
                             <div className="text-xs text-text-muted flex items-center gap-1.5">
                                 <GraduationCap size={11} />
-                                <span>{lecture?.course_title || 'CS 4780'} · Week {lecture?.week}</span>
+                                <span>{lecture?.course_title || 'Your Lecture Materials'} · Week {lecture?.week}</span>
                             </div>
                         </div>
                     </div>

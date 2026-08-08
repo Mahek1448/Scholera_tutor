@@ -127,8 +127,7 @@ export default function Tutor() {
             initial="initial"
             animate="animate"
             exit="exit"
-            className="flex flex-col h-full"
-            style={{ background: '#F5F7FA' }}
+            className="flex flex-col h-full bg-background"
         >
             {/* Header */}
             <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border bg-white shadow-sm flex-shrink-0 gap-3">
@@ -138,7 +137,7 @@ export default function Tutor() {
                     </div>
                     <div className="min-w-0">
                         <h1 className="text-sm font-semibold text-text-primary">AI Tutor</h1>
-                        <p className="text-[11px] text-text-muted truncate">CS 4780 · Machine Learning for Engineers</p>
+                        <p className="text-[11px] text-text-muted truncate">Answers sourced from your lecture materials</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">

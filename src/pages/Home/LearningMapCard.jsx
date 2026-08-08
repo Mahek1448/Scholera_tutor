@@ -1,134 +1,186 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Map, CheckCircle, Circle, AlertCircle, ChevronDown, ChevronUp, BookOpen, Lightbulb } from 'lucide-react'
-import { dashboardData } from '../../services/mockApi'
+import { motion } from 'framer-motion'
+import { CheckCircle, Circle, Clock, ChevronDown, ChevronUp } from 'lucide-react'
 
-const statusIcon = {
-    mastered: <CheckCircle size={14} className="text-emerald-400" />,
-    learning: <Circle size={14} className="text-amber-400" />,
-    'needs-revision': <AlertCircle size={14} className="text-rose-400" />,
+const NODES = [
+    {
+        id: 'intro', label: 'Intro to ML', status: 'done',
+        children: ['supervised', 'unsupervised'],
+    },
+    {
+        id: 'supervised', label: 'Supervised Learning', status: 'done',
+        children: ['regression', 'classification'],
+    },
+    {
+        id: 'unsupervised', label: 'Unsupervised Learning', status: 'active',
+        children: ['clustering'],
+    },
+    {
+        id: 'regression', label: 'Regression', status: 'done',
+        children: ['trees'],
+    },
+    {
+        id: 'classification', label: 'Classification', status: 'done',
+        children: ['svm', 'trees'],
+    },
+    {
+        id: 'clustering', label: 'Clustering', status: 'active',
+        children: ['deep'],
+    },
+    {
+        id: 'trees', label: 'Decision Trees', status: 'done',
+        children: ['ensemble'],
+    },
+    {
+        id: 'svm', label: 'SVM', status: 'partial',
+        children: [],
+    },
+    {
+        id: 'ensemble', label: 'Ensemble Methods', status: 'partial',
+        children: ['deep'],
+    },
+    {
+        id: 'deep', label: 'Deep Learning', status: 'todo',
+        children: ['transformers'],
+    },
+    {
+        id: 'transformers', label: 'Transformers', status: 'todo',
+        children: [],
+    },
+]
+
+const STATUS_STYLE = {
+    done: { bg: 'rgba(26,158,109,0.12)', border: 'rgba(26,158,109,0.50)', text: '#137F57', icon: CheckCircle },
+    active: { bg: 'rgba(196,98,45,0.10)', border: 'rgba(196,98,45,0.45)', text: '#A84E24', icon: Clock },
+    partial: { bg: 'rgba(196,98,45,0.06)', border: 'rgba(196,98,45,0.25)', text: '#8B3D1C', icon: Clock },
+    todo: { bg: 'var(--surface-2)', border: 'var(--border)', text: 'var(--text-muted)', icon: Circle },
 }
 
-const statusBar = {
-    mastered: 'bg-emerald-400',
-    learning: 'bg-amber-400',
-    'needs-revision': 'bg-rose-400',
+// Build a simple left-to-right DAG display: tier by BFS depth
+function buildTiers() {
+    const visited = new Set()
+    const tiers = []
+    let frontier = ['intro']
+    while (frontier.length) {
+        tiers.push(frontier)
+        visited.add(...frontier)
+        const next = []
+        for (const id of frontier) {
+            const node = NODES.find(n => n.id === id)
+            if (node) {
+                for (const c of node.children) {
+                    if (!visited.has(c) && !next.includes(c)) next.push(c)
+                }
+            }
+        }
+        frontier = next
+    }
+    return tiers
 }
 
 export default function LearningMapCard() {
-    const [selected, setSelected] = useState(null)
-    const { learningMap } = dashboardData
+    const [detail, setDetail] = useState(null)
+    const tiers = buildTiers()
+
+    const done = NODES.filter(n => n.status === 'done').length
+    const total = NODES.length
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="glass rounded-2xl p-5 relative overflow-hidden group"
+            transition={{ delay: 0.2, duration: 0.4 }}
+            className="card p-5"
         >
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
-
-            <div className="flex items-center gap-2 mb-5">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/25 flex items-center justify-center">
-                    <Map size={15} className="text-blue-400" />
-                </div>
+            {/* Header */}
+            <div className="flex items-center justify-between mb-5">
                 <div>
-                    <h3 className="text-sm font-semibold text-text-primary">Learning Map</h3>
-                    <p className="text-xs text-text-muted">{learningMap.length} concepts</p>
+                    <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Learning Map</h3>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                        {done} of {total} topics mastered
+                    </p>
                 </div>
-            </div>
-
-            {/* Roadmap */}
-            <div className="relative">
-                {/* Vertical line */}
-                <div className="absolute left-[18px] top-3 bottom-3 w-px bg-gradient-to-b from-primary-500/40 via-primary-500/20 to-transparent" />
-
-                <div className="space-y-1">
-                    {learningMap.map((node, i) => (
-                        <div key={node.id}>
-                            <motion.div
-                                whileHover={{ x: 4 }}
-                                onClick={() => setSelected(selected?.id === node.id ? null : node)}
-                                className={`flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-all ${selected?.id === node.id
-                                        ? 'bg-primary-600/15 border border-primary-500/30'
-                                        : 'hover:bg-surface-3 border border-transparent'
-                                    }`}
-                            >
-                                {/* Node dot */}
-                                <div className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 border-2 z-10 ${node.status === 'mastered'
-                                        ? 'bg-emerald-500/20 border-emerald-400/60'
-                                        : node.status === 'learning'
-                                            ? 'bg-amber-500/20 border-amber-400/60'
-                                            : 'bg-rose-500/20 border-rose-400/60'
-                                    }`}>
-                                    {statusIcon[node.status]}
-                                </div>
-
-                                <div className="flex-1 min-w-0">
-                                    <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium text-text-primary truncate">{node.label}</span>
-                                        <div className="flex items-center gap-1.5 flex-shrink-0">
-                                            <div className="w-14 h-1 bg-surface-3 rounded-full overflow-hidden">
-                                                <div
-                                                    className={`h-full rounded-full ${statusBar[node.status]}`}
-                                                    style={{ width: `${node.understanding}%` }}
-                                                />
-                                            </div>
-                                            <span className="text-[11px] text-text-muted">{node.understanding}%</span>
-                                            {selected?.id === node.id
-                                                ? <ChevronUp size={12} className="text-text-muted" />
-                                                : <ChevronDown size={12} className="text-text-muted" />
-                                            }
-                                        </div>
-                                    </div>
-                                    <div className="text-[11px] text-text-muted mt-0.5">{node.lecture} · Slide {node.slide}</div>
-                                </div>
-                            </motion.div>
-
-                            {/* Expanded detail */}
-                            <AnimatePresence>
-                                {selected?.id === node.id && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.25, ease: 'easeInOut' }}
-                                        className="overflow-hidden ml-12"
-                                    >
-                                        <div className="bg-surface-2 rounded-xl p-3 mb-1 border border-border">
-                                            <div className="flex items-center gap-1.5 mb-2">
-                                                <Lightbulb size={12} className="text-primary-400" />
-                                                <span className="text-xs font-semibold text-text-secondary">Related Concepts</span>
-                                            </div>
-                                            <div className="flex flex-wrap gap-1.5">
-                                                {node.related.map((r) => (
-                                                    <span key={r} className="text-[11px] bg-primary-500/10 text-primary-300 border border-primary-500/20 px-2 py-0.5 rounded-full">
-                                                        {r}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                            <div className="flex items-center gap-1.5 mt-2 pt-2 border-t border-border">
-                                                <BookOpen size={11} className="text-text-muted" />
-                                                <span className="text-[11px] text-text-muted">{node.lecture} · Slide {node.slide}</span>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            {/* Connector animation */}
-                            {i < learningMap.length - 1 && (
-                                <motion.div
-                                    initial={{ scaleY: 0, opacity: 0 }}
-                                    animate={{ scaleY: 1, opacity: 1 }}
-                                    transition={{ delay: 0.05 * i }}
-                                    className="ml-[18px] w-px h-1 bg-primary-500/30"
-                                />
-                            )}
+                <div className="flex items-center gap-3">
+                    {['done', 'active', 'todo'].map(s => (
+                        <div key={s} className="flex items-center gap-1">
+                            <div className="w-2.5 h-2.5 rounded-full"
+                                style={{ background: STATUS_STYLE[s].bg, border: `1.5px solid ${STATUS_STYLE[s].border}` }} />
+                            <span className="text-[10px] capitalize" style={{ color: 'var(--text-muted)' }}>{s}</span>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {/* Map — horizontal tiers */}
+            <div className="overflow-x-auto no-scrollbar">
+                <div className="flex items-start gap-6 pb-2 min-w-[620px]">
+                    {tiers.map((tier, ti) => (
+                        <div key={ti} className="flex flex-col gap-3 flex-shrink-0">
+                            {tier.map(nodeId => {
+                                const node = NODES.find(n => n.id === nodeId)
+                                if (!node) return null
+                                const s = STATUS_STYLE[node.status]
+                                const Icon = s.icon
+                                const isSelected = detail === node.id
+                                return (
+                                    <motion.button
+                                        key={node.id}
+                                        whileHover={{ scale: 1.04 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        onClick={() => setDetail(isSelected ? null : node.id)}
+                                        className="relative flex items-center gap-2 px-3 py-2.5 rounded-xl text-left transition-all"
+                                        style={{
+                                            background: isSelected ? s.border : s.bg,
+                                            border: `1.5px solid ${s.border}`,
+                                            minWidth: 130,
+                                            boxShadow: isSelected ? `0 0 0 3px ${s.border}30` : 'none',
+                                        }}
+                                    >
+                                        <Icon size={13} style={{ color: s.text, flexShrink: 0 }} />
+                                        <span className="text-xs font-medium leading-tight" style={{ color: isSelected ? 'white' : s.text }}>
+                                            {node.label}
+                                        </span>
+                                    </motion.button>
+                                )
+                            })}
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Detail panel */}
+            {detail && (() => {
+                const node = NODES.find(n => n.id === detail)
+                if (!node) return null
+                const s = STATUS_STYLE[node.status]
+                return (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="mt-4 rounded-xl px-4 py-3"
+                        style={{ background: 'var(--surface-2)', border: '1px solid var(--border)' }}
+                    >
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{node.label}</span>
+                            <span className="text-[10px] font-medium px-2 py-0.5 rounded-full" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
+                                {node.status === 'done' ? 'Mastered' : node.status === 'active' ? 'In Progress' : node.status === 'partial' ? 'Partially Done' : 'Not Started'}
+                            </span>
+                        </div>
+                        <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                            {node.status === 'done' && 'You have covered and understood this topic well.'}
+                            {node.status === 'active' && 'You are currently working through this topic in lecture.'}
+                            {node.status === 'partial' && "You started this topic but haven't fully consolidated it yet."}
+                            {node.status === 'todo' && "This topic hasn't been covered in your lectures yet."}
+                        </p>
+                        {node.children.length > 0 && (
+                            <p className="text-[10px] mt-1.5 font-medium" style={{ color: 'var(--text-muted)' }}>
+                                Unlocks → {node.children.map(c => NODES.find(n => n.id === c)?.label).join(', ')}
+                            </p>
+                        )}
+                    </motion.div>
+                )
+            })()}
         </motion.div>
     )
 }

@@ -38,7 +38,7 @@ export default function ChatInput({ onSend, isStreaming, onStop }) {
                 initial={false}
                 animate={{
                     boxShadow: value.length > 0
-                        ? '0 0 0 2px rgba(99,102,241,0.3), 0 4px 16px rgba(99,102,241,0.08)'
+                        ? '0 0 0 2px rgba(26,158,109,0.25), 0 4px 16px rgba(26,158,109,0.08)'
                         : '0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px #DDE1EB'
                 }}
                 className="relative flex items-end gap-2 bg-white border border-border rounded-2xl overflow-hidden"
@@ -87,7 +87,7 @@ export default function ChatInput({ onSend, isStreaming, onStop }) {
             </motion.div>
             <div className="flex items-center justify-between mt-2 px-1">
                 <p className="text-[11px] text-text-muted">
-                    Sourced from <span className="text-primary-500">CS 4780 · Dr. Elena Márquez</span>
+                    Sourced from <span className="text-primary-500">your lecture materials</span>
                 </p>
                 <p className="text-[11px] text-text-muted">↵ Send · ⇧↵ Newline</p>
             </div>

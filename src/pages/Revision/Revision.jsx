@@ -17,15 +17,15 @@ function SavedAnswerCard({ answer, idx }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 * idx }}
-            className="glass rounded-2xl border border-border overflow-hidden"
+            className="bg-white rounded-2xl border border-border overflow-hidden shadow-card"
         >
             {/* Header */}
             <button
                 onClick={() => setExpanded(!expanded)}
                 className="w-full flex items-start gap-3 p-4 text-left hover:bg-surface-3/30 transition-colors"
             >
-                <div className="w-7 h-7 rounded-lg bg-primary-500/15 border border-primary-500/25 flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <Bookmark size={13} className="text-primary-400" />
+                <div className="w-7 h-7 rounded-lg bg-primary-50 border border-primary-200 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Bookmark size={13} className="text-primary-600" />
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="text-sm font-medium text-text-primary truncate">
@@ -33,7 +33,7 @@ function SavedAnswerCard({ answer, idx }) {
                     </div>
                     <div className="flex items-center gap-2 mt-1">
                         {answer.citations?.map((c, i) => (
-                            <span key={i} className="text-[11px] text-primary-400 bg-primary-500/10 border border-primary-500/20 px-2 py-0.5 rounded-full">
+                            <span key={i} className="text-[11px] text-primary-600 bg-primary-50 border border-primary-200 px-2 py-0.5 rounded-full">
                                 {c.lecture.split(' — ')[0]} · Slide {c.slide}
                             </span>
                         ))}
@@ -77,14 +77,14 @@ function LectureSummaryCard({ lecture, idx }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 * idx }}
-            className="glass rounded-2xl border border-border overflow-hidden"
+            className="bg-white rounded-2xl border border-border overflow-hidden shadow-card"
         >
             <button
                 onClick={() => setExpanded(!expanded)}
-                className="w-full flex items-start gap-3 p-5 text-left hover:bg-primary-500/3 transition-colors"
+                className="w-full flex items-start gap-3 p-5 text-left hover:bg-primary-50 transition-colors"
             >
-                <div className="w-10 h-10 rounded-xl bg-primary-500/15 border border-primary-500/25 flex items-center justify-center flex-shrink-0">
-                    <span className="text-primary-300 font-bold text-sm">W{lecture.week}</span>
+                <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center flex-shrink-0">
+                    <span className="text-primary-700 font-bold text-sm">W{lecture.week}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                     <div className="text-sm font-semibold text-text-primary">{lecture.title}</div>
@@ -116,7 +116,7 @@ function LectureSummaryCard({ lecture, idx }) {
                                 {lecture.slides.filter(s => s.bullets || s.formulas).slice(0, 6).map((slide) => (
                                     <div key={slide.slide_number} className="bg-surface-2 rounded-xl p-3 border border-border">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-[10px] bg-primary-500/15 text-primary-400 border border-primary-500/20 px-1.5 py-0.5 rounded font-medium">
+                                            <span className="text-[10px] bg-primary-50 text-primary-600 border border-primary-200 px-1.5 py-0.5 rounded font-medium">
                                                 Slide {slide.slide_number}
                                             </span>
                                             <span className="text-xs font-semibold text-text-primary">{slide.title}</span>
@@ -125,7 +125,7 @@ function LectureSummaryCard({ lecture, idx }) {
                                             <ul className="space-y-1">
                                                 {slide.bullets.slice(0, 3).map((b, i) => (
                                                     <li key={i} className="text-[11px] text-text-secondary flex gap-2">
-                                                        <span className="text-primary-400 mt-1">·</span>
+                                                        <span className="text-primary-500 mt-1">·</span>
                                                         <span>{b}</span>
                                                     </li>
                                                 ))}
@@ -184,7 +184,7 @@ export default function Revision() {
                             {tab === t && (
                                 <motion.div
                                     layoutId="revision-tab"
-                                    className="absolute inset-0 bg-primary-600/20 border border-primary-500/30 rounded-lg"
+                                    className="absolute inset-0 bg-primary-100 border border-primary-200 rounded-lg"
                                 />
                             )}
                             <span className="relative z-10">{t}</span>

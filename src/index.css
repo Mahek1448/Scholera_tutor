@@ -2,6 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── CSS Variables: Light Theme ─────────────────────────────────────────── */
+:root {
+  --bg: #F8F4EF;
+  --surface: #FDFAF6;
+  --surface-2: #F1EBE3;
+  --surface-3: #E8DDD3;
+  --border: #D5CBC0;
+  --border-light: #E0D6CC;
+
+  --text-primary: #1C1917;
+  --text-secondary: #44403C;
+  --text-muted: #78716C;
+
+  /* Named for prose and KaTeX */
+  --color-primary: #1A9E6D;
+  --color-accent: #C4622D;
+}
+
+/* ─── CSS Variables: Dark Theme ──────────────────────────────────────────── */
+.dark {
+  --bg: #141210;
+  --surface: #1C1915;
+  --surface-2: #252118;
+  --surface-3: #2E291F;
+  --border: #3A342A;
+  --border-light: #443D31;
+
+  --text-primary: #F0EAE0;
+  --text-secondary: #C4BBB0;
+  --text-muted: #8C837A;
+
+  --color-primary: #38B985;
+  --color-accent: #DC7C4E;
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -12,12 +47,13 @@
   }
 
   body {
-    background-color: #F5F7FA;
-    color: #111827;
+    background-color: var(--bg);
+    color: var(--text-primary);
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   ::-webkit-scrollbar {
@@ -26,106 +62,85 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #F0F2F7;
+    background: var(--surface-2);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #C7D2FE;
+    background: var(--border);
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #818CF8;
+    background: var(--text-muted);
   }
 
   ::selection {
-    background: rgba(99, 102, 241, 0.15);
-    color: #111827;
+    background: rgba(26, 158, 109, 0.15);
+    color: var(--text-primary);
   }
 }
 
 @layer components {
 
-  /* Light glass cards */
+  /* ─── Glass cards ──────────────────────────────────────────────────────── */
   .glass {
-    background: rgba(255, 255, 255, 0.85);
+    background: var(--surface);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(221, 225, 235, 0.9);
+    border: 1px solid var(--border);
   }
 
   .glass-lighter {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(253, 250, 246, 0.65);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(221, 225, 235, 0.7);
+    border: 1px solid var(--border-light);
   }
 
-  /* Gradient text */
+  .dark .glass-lighter {
+    background: rgba(28, 25, 21, 0.65);
+  }
+
+  /* ─── Gradient text ────────────────────────────────────────────────────── */
   .gradient-text {
-    background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 50%, #8B5CF6 100%);
+    background: linear-gradient(135deg, #1A9E6D 0%, #137F57 60%, #C4622D 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .gradient-text-blue {
-    background: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
+  .gradient-text-accent {
+    background: linear-gradient(135deg, #C4622D 0%, #A84E24 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  /* Glow effects */
+  /* ─── Glow effects ─────────────────────────────────────────────────────── */
   .glow-ring {
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2), 0 0 16px rgba(99, 102, 241, 0.1);
+    box-shadow: 0 0 0 2px rgba(26, 158, 109, 0.2), 0 0 16px rgba(26, 158, 109, 0.1);
   }
 
   .glow-ring:hover {
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4), 0 0 24px rgba(99, 102, 241, 0.15);
+    box-shadow: 0 0 0 2px rgba(26, 158, 109, 0.4), 0 0 24px rgba(26, 158, 109, 0.15);
   }
 
-  /* Shimmer */
-  .shimmer {
-    background: linear-gradient(90deg,
-        rgba(232, 236, 244, 0) 0%,
-        rgba(99, 102, 241, 0.05) 50%,
-        rgba(232, 236, 244, 0) 100%);
-    background-size: 200% 100%;
-    animation: shimmer 2s linear infinite;
-  }
-
-  /* Top gradient line */
-  .gradient-border-top {
-    position: relative;
-  }
-
-  .gradient-border-top::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #6366F1, #8B5CF6, transparent);
-    border-radius: 2px 2px 0 0;
-  }
-
-  /* Focus ring */
+  /* ─── Focus ring ───────────────────────────────────────────────────────── */
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:ring-offset-1 focus:ring-offset-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:ring-offset-1;
   }
 
-  /* Card base */
+  /* ─── Card base ────────────────────────────────────────────────────────── */
   .card {
-    background: #FFFFFF;
-    border: 1px solid #DDE1EB;
+    background: var(--surface);
+    border: 1px solid var(--border);
     border-radius: 1rem;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05), 0 4px 16px rgba(0, 0, 0, 0.04);
+    transition: box-shadow 0.2s ease;
   }
 
   .card:hover {
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(99, 102, 241, 0.08);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08), 0 1px 6px rgba(26, 158, 109, 0.07);
   }
 }
 
@@ -144,10 +159,10 @@
   }
 }
 
-/* KaTeX math styling */
+/* ─── KaTeX math styling ─────────────────────────────────────────────────── */
 .katex {
   font-size: 1em;
-  color: #4F46E5;
+  color: var(--color-primary);
 }
 
 .katex-display {
@@ -155,40 +170,40 @@
   overflow-x: auto;
   overflow-y: hidden;
   padding: 1em;
-  background: #F0F2F7;
+  background: var(--surface-2);
   border-radius: 0.5rem;
-  border: 1px solid #DDE1EB;
+  border: 1px solid var(--border);
 }
 
-/* Code highlighting overrides */
+/* ─── Code highlighting ──────────────────────────────────────────────────── */
 pre {
   margin: 0 !important;
 }
 
-/* Markdown content styling */
+/* ─── Prose / Markdown ───────────────────────────────────────────────────── */
 .prose-scholera h1,
 .prose-scholera h2,
 .prose-scholera h3 {
-  color: #111827;
+  color: var(--text-primary);
   font-weight: 600;
   margin-top: 1.25em;
   margin-bottom: 0.5em;
 }
 
 .prose-scholera p {
-  color: #374151;
+  color: var(--text-secondary);
   line-height: 1.75;
   margin-bottom: 0.875em;
 }
 
 .prose-scholera strong {
-  color: #111827;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
 .prose-scholera ul,
 .prose-scholera ol {
-  color: #374151;
+  color: var(--text-secondary);
   padding-left: 1.5em;
   margin-bottom: 0.875em;
 }
@@ -205,40 +220,57 @@ pre {
 }
 
 .prose-scholera th {
-  background: rgba(99, 102, 241, 0.08);
-  color: #4F46E5;
+  background: rgba(26, 158, 109, 0.07);
+  color: #1A9E6D;
   font-weight: 600;
   padding: 0.6em 1em;
   text-align: left;
-  border: 1px solid #DDE1EB;
+  border: 1px solid var(--border);
 }
 
 .prose-scholera td {
   padding: 0.55em 1em;
-  border: 1px solid #DDE1EB;
-  color: #374151;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
 }
 
 .prose-scholera tr:nth-child(even) td {
-  background: #F5F7FA;
+  background: var(--surface-2);
 }
 
 .prose-scholera code:not(pre code) {
-  background: rgba(99, 102, 241, 0.08);
-  color: #4F46E5;
+  background: rgba(26, 158, 109, 0.08);
+  color: #1A9E6D;
   padding: 0.15em 0.4em;
   border-radius: 4px;
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.875em;
-  border: 1px solid rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(26, 158, 109, 0.15);
 }
 
 .prose-scholera blockquote {
-  border-left: 3px solid #6366F1;
+  border-left: 3px solid var(--color-primary);
   padding-left: 1em;
-  color: #6B7280;
+  color: var(--text-muted);
   font-style: italic;
   margin: 1em 0;
-  background: #F5F7FA;
+  background: var(--surface-2);
   border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* ─── Reduced motion ───────────────────────────────────────────────────────*/
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Theme transitions ──────────────────────────────────────────────────── */
+.theme-transition {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }

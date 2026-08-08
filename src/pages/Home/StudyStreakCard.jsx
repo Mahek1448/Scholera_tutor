@@ -1,175 +1,184 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Flame, TrendingUp } from 'lucide-react'
+import { useMemo, useState } from 'react'
+import { motion } from 'framer-motion'
 
-// Generate 52 weeks of mock study data
+// Generate 16 weeks of data
 function generateStreakData() {
-    const weeks = []
+    const arr = []
     const today = new Date()
-    const topics = ['Linear Regression', 'Gradient Descent', 'Backpropagation', 'Regularization', 'ReLU', 'Cross-Entropy', 'Softmax', 'Dropout']
+    today.setHours(0, 0, 0, 0)
+    const startDay = new Date(today)
+    startDay.setDate(today.getDate() - 111) // ~16 weeks back
+    const dayOfWeek = startDay.getDay()
+    startDay.setDate(startDay.getDate() - dayOfWeek) // align to Sunday
 
-    for (let w = 51; w >= 0; w--) {
-        const week = []
-        for (let d = 0; d < 7; d++) {
-            const date = new Date(today)
-            date.setDate(date.getDate() - (w * 7 + (6 - d)))
-
-            const isFuture = date > today
-            const daysSinceStart = Math.floor((today - date) / (1000 * 60 * 60 * 24))
-            const baseProb = daysSinceStart > 90 ? 0.3 : daysSinceStart > 30 ? 0.55 : 0.75
-            const hasStudy = !isFuture && Math.random() < baseProb
-            const minutes = hasStudy ? Math.floor(Math.random() * 90 + 15) : 0
-            const topicCount = hasStudy ? Math.floor(Math.random() * 4 + 1) : 0
-            const dayTopics = hasStudy ? topics.sort(() => 0.5 - Math.random()).slice(0, topicCount) : []
-
-            week.push({
-                date,
-                hasStudy,
-                minutes,
-                topics: dayTopics,
-                level: minutes > 75 ? 4 : minutes > 50 ? 3 : minutes > 25 ? 2 : minutes > 0 ? 1 : 0,
-            })
+    for (let d = new Date(startDay); d <= today; d.setDate(d.getDate() + 1)) {
+        const chance = Math.random()
+        let level = 0
+        if (chance > 0.48) {
+            if (chance > 0.85) level = 4
+            else if (chance > 0.72) level = 3
+            else if (chance > 0.60) level = 2
+            else level = 1
         }
-        weeks.push(week)
+        arr.push({ date: new Date(d), level })
     }
-    return weeks
+    return arr
 }
 
-const weeks = generateStreakData()
-
-const levelColors = [
-    'bg-surface-3 border-border',
-    'bg-primary-100 border-primary-200',
-    'bg-primary-200 border-primary-300',
-    'bg-primary-400 border-primary-300',
-    'bg-primary-500 border-primary-600',
+const LEVEL_COLORS = [
+    'var(--surface-2)',       // 0 - empty
+    'rgba(26,158,109,0.22)', // 1
+    'rgba(26,158,109,0.45)', // 2
+    'rgba(26,158,109,0.68)', // 3
+    'rgba(26,158,109,0.95)', // 4
 ]
 
+const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
 export default function StudyStreakCard() {
+    const data = useMemo(() => generateStreakData(), [])
     const [tooltip, setTooltip] = useState(null)
 
-    // Calculate streak
-    let streak = 0
-    const allDays = weeks.flat().filter(d => d.date <= new Date())
-    for (let i = allDays.length - 1; i >= 0; i--) {
-        if (allDays[i].hasStudy) streak++
-        else break
-    }
+    const weeks = useMemo(() => {
+        const result = []
+        for (let i = 0; i < data.length; i += 7) {
+            result.push(data.slice(i, i + 7))
+        }
+        return result
+    }, [data])
 
-    const formatDate = (d) =>
-        d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+    const totalDays = data.filter(d => d.level > 0).length
+    const currentStreak = useMemo(() => {
+        let streak = 0
+        for (let i = data.length - 1; i >= 0; i--) {
+            if (data[i].level > 0) streak++
+            else break
+        }
+        return streak
+    }, [data])
+
+    const monthLabels = useMemo(() => {
+        const labels = []
+        weeks.forEach((week, wi) => {
+            const first = week[0]
+            if (first?.date.getDate() <= 7) {
+                labels.push({ wi, label: first.date.toLocaleString('default', { month: 'short' }) })
+            }
+        })
+        return labels
+    }, [weeks])
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="glass rounded-2xl p-5 relative overflow-hidden group"
+            transition={{ delay: 0.1, duration: 0.4 }}
+            className="card p-5 flex flex-col"
         >
-            {/* Top glow on hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
-
             {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-orange-500/15 border border-orange-500/25 flex items-center justify-center">
-                        <Flame size={15} className="text-orange-400" />
-                    </div>
-                    <div>
-                        <h3 className="text-sm font-semibold text-text-primary">Study Streak</h3>
-                        <p className="text-xs text-text-muted">Last 12 months</p>
-                    </div>
+            <div className="flex items-start justify-between mb-3 flex-shrink-0">
+                <div>
+                    <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+                        Study Streak
+                    </h3>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                        {totalDays} active days · last 16 weeks
+                    </p>
                 </div>
-                <div className="flex items-center gap-1.5">
-                    <Flame size={14} className="text-orange-400" />
-                    <span className="text-xl font-bold text-text-primary">{streak}</span>
-                    <span className="text-xs text-text-muted">days</span>
+                <div className="flex gap-4">
+                    <Stat label="Current" value={`${currentStreak}d`} />
+                    <Stat label="Total" value={`${totalDays}d`} />
                 </div>
             </div>
 
-            {/* Grid */}
-            <div className="relative">
-                {/* Month labels */}
-                <div className="flex mb-1 ml-6">
-                    {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((m, i) => (
-                        <div key={m} className="text-[9px] text-text-muted" style={{ flex: i === 11 ? 1 : undefined, width: i === 11 ? undefined : `${(weeks.length / 12) * 10}px`, minWidth: 0 }}>
-                            {m}
+            {/* Month labels row */}
+            <div className="flex gap-[3px] mb-1 pl-8 flex-shrink-0">
+                {weeks.map((_, wi) => {
+                    const label = monthLabels.find(m => m.wi === wi)
+                    return (
+                        <div
+                            key={wi}
+                            className="flex-1 text-[9px] truncate"
+                            style={{ color: 'var(--text-muted)', minWidth: 0 }}
+                        >
+                            {label?.label || ''}
+                        </div>
+                    )
+                })}
+            </div>
+
+            {/* Grid — flex-1 so it fills the card */}
+            <div className="flex gap-[3px] flex-1 min-h-0">
+                {/* Day labels */}
+                <div className="flex flex-col justify-between py-0.5 pr-1 flex-shrink-0 w-7">
+                    {DAY_LABELS.map((l, i) => (
+                        <div
+                            key={i}
+                            className="text-[9px] leading-none flex items-center justify-end"
+                            style={{ color: 'var(--text-muted)', height: `${100 / 7}%` }}
+                        >
+                            {i % 2 === 1 ? l : ''}
                         </div>
                     ))}
                 </div>
 
-                <div className="flex gap-[3px]">
-                    {/* Day labels */}
-                    <div className="flex flex-col gap-[3px] mr-1">
-                        {['M', '', 'W', '', 'F', '', 'S'].map((d, i) => (
-                            <div key={i} className="text-[9px] text-text-muted h-[10px] flex items-center">{d}</div>
-                        ))}
-                    </div>
-
-                    {/* Contribution squares */}
-                    <div className="flex gap-[3px] flex-1 overflow-x-auto no-scrollbar">
-                        {weeks.map((week, wi) => (
-                            <div key={wi} className="flex flex-col gap-[3px]">
-                                {week.map((day, di) => (
-                                    <div
-                                        key={di}
-                                        className="relative"
-                                        onMouseEnter={(e) => {
-                                            if (!day.hasStudy && day.level === 0) return
-                                            const rect = e.currentTarget.getBoundingClientRect()
-                                            setTooltip({ day, x: rect.left, y: rect.top })
-                                        }}
-                                        onMouseLeave={() => setTooltip(null)}
-                                    >
+                {/* Columns */}
+                {weeks.map((week, wi) => (
+                    <div key={wi} className="flex flex-col gap-[3px] flex-1 min-w-0">
+                        {week.map((day, di) => {
+                            const tipKey = `${wi}-${di}`
+                            return (
+                                <motion.div
+                                    key={di}
+                                    onHoverStart={() => setTooltip({ key: tipKey, day })}
+                                    onHoverEnd={() => setTooltip(null)}
+                                    whileHover={{ scale: 1.15, zIndex: 10 }}
+                                    className="relative rounded-sm cursor-default flex-1"
+                                    style={{
+                                        background: LEVEL_COLORS[day.level],
+                                        border: `1px solid ${day.level === 0 ? 'var(--border)' : 'rgba(26,158,109,0.15)'}`,
+                                        minHeight: 4,
+                                    }}
+                                >
+                                    {tooltip?.key === tipKey && (
                                         <motion.div
-                                            whileHover={{ scale: 1.4 }}
-                                            className={`w-[10px] h-[10px] rounded-[2px] border cursor-pointer transition-colors ${levelColors[day.level]}`}
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* Tooltip */}
-                <AnimatePresence>
-                    {tooltip && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 4, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            className="fixed z-50 pointer-events-none"
-                            style={{ left: tooltip.x + 16, top: tooltip.y - 80 }}
-                        >
-                            <div className="glass border border-border rounded-xl p-3 shadow-card min-w-[160px]">
-                                <div className="text-xs font-semibold text-text-primary mb-1">
-                                    {formatDate(tooltip.day.date)}
-                                </div>
-                                <div className="text-xs text-text-secondary space-y-0.5">
-                                    <div>{tooltip.day.minutes} min studied</div>
-                                    {tooltip.day.topics.length > 0 && (
-                                        <div className="text-text-muted">{tooltip.day.topics.slice(0, 2).join(', ')}</div>
+                                            initial={{ opacity: 0, y: 4 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="absolute -top-7 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap text-[9px] font-semibold px-1.5 py-0.5 rounded shadow-md pointer-events-none"
+                                            style={{
+                                                background: 'var(--surface)',
+                                                border: '1px solid var(--border)',
+                                                color: 'var(--text-primary)',
+                                            }}
+                                        >
+                                            {day.date?.toLocaleDateString('en', { month: 'short', day: 'numeric' })}
+                                            {day.level > 0 ? ` · ${['', 'Light', 'Moderate', 'Active', 'Intense'][day.level]}` : ' · No activity'}
+                                        </motion.div>
                                     )}
-                                </div>
-                                <div className="mt-1.5 flex items-center gap-1">
-                                    <Flame size={10} className="text-orange-400" />
-                                    <span className="text-[10px] text-orange-400">{streak} day streak</span>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                                </motion.div>
+                            )
+                        })}
+                    </div>
+                ))}
             </div>
 
             {/* Legend */}
-            <div className="flex items-center gap-2 mt-3">
-                <span className="text-[10px] text-text-muted">Less</span>
-                {levelColors.map((cls, i) => (
-                    <div key={i} className={`w-2.5 h-2.5 rounded-sm border ${cls}`} />
+            <div className="flex items-center gap-1.5 mt-3 justify-end flex-shrink-0">
+                <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Less</span>
+                {LEVEL_COLORS.map((c, i) => (
+                    <div key={i} className="w-[11px] h-[11px] rounded-sm" style={{ background: c, border: '1px solid var(--border)' }} />
                 ))}
-                <span className="text-[10px] text-text-muted">More</span>
+                <span className="text-[10px]" style={{ color: 'var(--text-muted)' }}>More</span>
             </div>
         </motion.div>
+    )
+}
+
+function Stat({ label, value }) {
+    return (
+        <div className="text-right">
+            <div className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>{value}</div>
+            <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{label}</div>
+        </div>
     )
 }

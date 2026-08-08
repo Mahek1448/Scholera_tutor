@@ -1,100 +1,82 @@
 import { motion } from 'framer-motion'
-import { Clock, Target, PenLine, HelpCircle } from 'lucide-react'
-import { dashboardData } from '../../services/mockApi'
-
-function RadialProgress({ value, max, color, size = 80, strokeW = 8 }) {
-    const r = (size - strokeW) / 2
-    const circ = 2 * Math.PI * r
-    const pct = Math.min(value / max, 1)
-    const offset = circ * (1 - pct)
-
-    return (
-        <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-            <circle
-                cx={size / 2} cy={size / 2} r={r}
-                fill="none" stroke="#E8ECF4" strokeWidth={strokeW}
-            />
-            <motion.circle
-                cx={size / 2} cy={size / 2} r={r}
-                fill="none" stroke={color} strokeWidth={strokeW}
-                strokeDasharray={circ}
-                initial={{ strokeDashoffset: circ }}
-                animate={{ strokeDashoffset: offset }}
-                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 }}
-                strokeLinecap="round"
-            />
-        </svg>
-    )
-}
+import { Target, Flame, BookOpenCheck } from 'lucide-react'
 
 const stats = [
-    { label: 'Minutes', icon: Clock, value: 47, max: 120, color: '#6366F1', unit: 'min', key: 'todayMinutes' },
-    { label: 'Topics', icon: Target, value: 4, max: 10, color: '#22C55E', unit: '', key: 'todayTopics' },
-    { label: 'Notes', icon: PenLine, value: 6, max: 20, color: '#F59E0B', unit: '', key: 'notesCreated' },
-    { label: 'Questions', icon: HelpCircle, value: 11, max: 30, color: '#A78BFA', unit: '', key: 'questionsAsked' },
+    { label: 'Topics Studied', value: 3, icon: BookOpenCheck, color: 'rgba(26,158,109,0.85)' },
+    { label: 'Questions Asked', value: 12, icon: Target, color: 'rgba(196,98,45,0.85)' },
+    { label: 'Min Today', value: 47, icon: Flame, color: 'rgba(26,158,109,0.65)' },
 ]
 
+// Goal: study 60 min today
+const GOAL = 60
+const actual = 47
+
 export default function TodayProgressCard() {
-    const d = dashboardData
+    const pct = Math.min((actual / GOAL) * 100, 100)
+    const r = 32
+    const circ = 2 * Math.PI * r
+    const stroke = circ - (pct / 100) * circ
 
     return (
         <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.25 }}
-            className="glass rounded-2xl p-5 relative overflow-hidden group"
+            transition={{ delay: 0.12, duration: 0.4 }}
+            className="card p-5 h-full flex flex-col"
         >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
+            <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Today's Progress</h3>
 
-            <div className="flex items-center gap-2 mb-5">
-                <div className="w-8 h-8 rounded-lg bg-primary-50 border border-primary-100 flex items-center justify-center">
-                    <Target size={15} className="text-primary-500" />
+            {/* Ring chart */}
+            <div className="flex items-center gap-5 mb-5">
+                <div className="relative flex-shrink-0">
+                    <svg width="84" height="84" className="-rotate-90">
+                        <circle cx="42" cy="42" r={r} fill="none"
+                            strokeWidth="7" stroke="var(--surface-2)" />
+                        <motion.circle
+                            cx="42" cy="42" r={r} fill="none"
+                            strokeWidth="7"
+                            stroke="#1A9E6D"
+                            strokeLinecap="round"
+                            strokeDasharray={circ}
+                            initial={{ strokeDashoffset: circ }}
+                            animate={{ strokeDashoffset: stroke }}
+                            transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
+                        />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+                            {Math.round(pct)}%
+                        </span>
+                        <span className="text-[9px]" style={{ color: 'var(--text-muted)' }}>of goal</span>
+                    </div>
                 </div>
                 <div>
-                    <h3 className="text-sm font-semibold text-text-primary">Today's Progress</h3>
-                    <p className="text-xs text-text-muted">Thursday, Sep 22</p>
+                    <div className="text-xs font-medium mb-0.5" style={{ color: 'var(--text-secondary)' }}>
+                        {actual} / {GOAL} min
+                    </div>
+                    <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                        Daily study goal
+                    </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3">
-                {stats.map(({ label, icon: Icon, value, max, color, unit }) => (
-                    <motion.div
-                        key={label}
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ delay: 0.35 }}
-                        className="bg-surface-2 rounded-xl p-3 border border-border flex items-center gap-3"
-                    >
-                        <div className="relative flex-shrink-0">
-                            <RadialProgress value={value} max={max} color={color} size={52} strokeW={5} />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <Icon size={14} style={{ color }} />
+            {/* Stats */}
+            <div className="space-y-2.5 flex-1">
+                {stats.map((s, i) => {
+                    const Icon = s.icon
+                    return (
+                        <div key={i} className="flex items-center gap-2.5">
+                            <div className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0"
+                                style={{ background: s.color + '15', border: `1px solid ${s.color}25` }}>
+                                <Icon size={12} style={{ color: s.color }} />
+                            </div>
+                            <div className="flex-1 flex items-baseline justify-between">
+                                <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{s.label}</span>
+                                <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{s.value}</span>
                             </div>
                         </div>
-                        <div>
-                            <div className="text-base font-bold text-text-primary leading-none">
-                                {value}{unit}
-                            </div>
-                            <div className="text-[11px] text-text-muted mt-0.5">{label}</div>
-                        </div>
-                    </motion.div>
-                ))}
-            </div>
-
-            {/* Overall bar */}
-            <div className="mt-4 pt-3 border-t border-border">
-                <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs text-text-muted">Daily Goal</span>
-                    <span className="text-xs font-semibold text-text-primary">39%</span>
-                </div>
-                <div className="h-1.5 bg-surface-3 rounded-full overflow-hidden">
-                    <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: '39%' }}
-                        transition={{ duration: 1, ease: 'easeOut', delay: 0.5 }}
-                        className="h-full rounded-full bg-gradient-to-r from-primary-500 to-accent-500"
-                    />
-                </div>
+                    )
+                })}
             </div>
         </motion.div>
     )

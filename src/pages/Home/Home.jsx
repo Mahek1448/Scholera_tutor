@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion'
-import { useNavigate } from 'react-router-dom'
 import StudyStreakCard from './StudyStreakCard'
 import HeatmapCard from './HeatmapCard'
 import LearningMapCard from './LearningMapCard'
 import TopicsLeftCard from './TopicsLeftCard'
 import ContinueLearningCard from './ContinueLearningCard'
 import TodayProgressCard from './TodayProgressCard'
-import { dashboardData } from '../../services/mockApi'
-import { Sparkles, ArrowRight, GraduationCap } from 'lucide-react'
+import TutorFAB from './TutorFAB'
+import AnimatedBackground from './AnimatedBackground'
 
 const pageVariants = {
     initial: { opacity: 0, y: 8 },
@@ -15,9 +14,25 @@ const pageVariants = {
     exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
 }
 
+function getGreeting() {
+    const h = new Date().getHours()
+    if (h < 5) return 'Late night study session 🌙'
+    if (h < 12) return 'Good morning 🌅'
+    if (h < 17) return 'Good afternoon ☀️'
+    if (h < 21) return 'Good evening 👋'
+    return 'Evening study time 🌙'
+}
+
+function getCurrentUser() {
+    try {
+        const u = localStorage.getItem('scholera_current_user')
+        return u ? JSON.parse(u) : null
+    } catch { return null }
+}
+
 export default function Home() {
-    const navigate = useNavigate()
-    const { student, course } = dashboardData
+    const user = getCurrentUser()
+    const firstName = user?.name?.split(' ')[0] || 'there'
 
     return (
         <motion.div
@@ -26,62 +41,29 @@ export default function Home() {
             animate="animate"
             exit="exit"
             className="relative h-full overflow-y-auto"
-            style={{ background: '#F5F7FA' }}
+            style={{ background: 'var(--bg)' }}
         >
+            {/* Animated background — mouse repulsion effect */}
+            <AnimatedBackground />
+
             {/* Content */}
-            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-16">
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: -12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.05 }}
-                    className="mb-6"
+                    className="mb-8"
                 >
-                    <div className="flex items-center gap-2 mb-2">
-                        <div className="flex items-center gap-1.5 bg-primary-50 border border-primary-100 rounded-full px-3 py-1">
-                            <GraduationCap size={12} className="text-primary-500" />
-                            <span className="text-xs text-primary-600 font-medium">{course.code} · {course.instructor}</span>
-                        </div>
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl font-bold text-text-primary mt-2">
-                        Good evening, <span className="gradient-text">{student.name.split(' ')[0]}</span> 👋
-                    </h1>
-                    <p className="text-text-secondary mt-2 text-base">
-                        Ready to continue with <span className="text-text-primary font-medium">{course.title}</span>?
-                        You're making great progress.
+                    <p className="text-sm font-medium mb-1.5" style={{ color: 'var(--text-muted)' }}>
+                        {getGreeting()}
                     </p>
-                </motion.div>
-
-                {/* Open Tutor CTA */}
-                <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="mb-6"
-                >
-                    <motion.button
-                        whileHover={{ scale: 1.01, y: -2 }}
-                        whileTap={{ scale: 0.99 }}
-                        onClick={() => navigate('/tutor')}
-                        className="relative w-full overflow-hidden rounded-2xl border border-primary-200 bg-white shadow-card hover:shadow-card-hover transition-all"
-                    >
-                        <div className="absolute inset-0 bg-gradient-to-r from-primary-50 via-transparent to-accent-50 opacity-60" />
-                        <div className="relative px-6 py-5 flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm flex-shrink-0">
-                                    <Sparkles size={22} className="text-white" />
-                                </div>
-                                <div className="text-left">
-                                    <div className="text-lg font-bold text-text-primary">Open AI Tutor</div>
-                                    <div className="text-sm text-text-secondary">Ask anything from your lecture materials</div>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-primary-500 to-accent-500 rounded-xl text-white text-sm font-semibold shadow-glow-sm flex-shrink-0">
-                                <span>Ask Now</span>
-                                <ArrowRight size={16} />
-                            </div>
-                        </div>
-                    </motion.button>
+                    <h1 className="text-3xl sm:text-4xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        Hello, <span className="gradient-text">{firstName}</span>
+                    </h1>
+                    <p className="mt-2 text-base" style={{ color: 'var(--text-secondary)' }}>
+                        Continue your learning journey. Here's where you stand.
+                    </p>
                 </motion.div>
 
                 {/* Dashboard Grid */}
@@ -109,6 +91,9 @@ export default function Home() {
                     </div>
                 </div>
             </div>
+
+            {/* Floating Tutor button */}
+            <TutorFAB />
         </motion.div>
     )
 }

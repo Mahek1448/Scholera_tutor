@@ -109,7 +109,7 @@ export default function Notes() {
             className="flex h-full bg-background"
         >
             {/* Note list sidebar */}
-            <div className="w-64 flex-shrink-0 border-r border-border flex flex-col glass">
+            <div className="w-64 flex-shrink-0 border-r border-border flex flex-col bg-surface">
                 {/* Header */}
                 <div className="p-4 border-b border-border">
                     <div className="flex items-center justify-between mb-3">
@@ -118,7 +118,7 @@ export default function Notes() {
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
                             onClick={createNote}
-                            className="w-6 h-6 rounded-lg bg-primary-500/20 border border-primary-500/30 text-primary-400 flex items-center justify-center"
+                            className="w-6 h-6 rounded-lg bg-primary-50 border border-primary-200 text-primary-600 flex items-center justify-center hover:bg-primary-100 transition-colors"
                         >
                             <Plus size={14} />
                         </motion.button>
@@ -129,7 +129,7 @@ export default function Notes() {
                             value={search}
                             onChange={e => setSearch(e.target.value)}
                             placeholder="Search notes…"
-                            className="w-full bg-surface-2 border border-border rounded-lg pl-7 pr-3 py-1.5 text-xs text-text-primary placeholder-text-muted outline-none focus:border-primary-500/50 transition-colors"
+                            className="w-full bg-surface-2 border border-border rounded-lg pl-7 pr-3 py-1.5 text-xs text-text-primary placeholder-text-muted outline-none focus:border-primary-400 transition-colors"
                         />
                     </div>
                 </div>
@@ -151,8 +151,8 @@ export default function Notes() {
                                         whileHover={{ x: 2 }}
                                         onClick={() => setSelected(note)}
                                         className={`w-full text-left flex items-start gap-2 px-2 py-2 rounded-lg mb-0.5 group transition-colors ${selected?.id === note.id
-                                                ? 'bg-primary-500/15 border border-primary-500/25'
-                                                : 'hover:bg-surface-3 border border-transparent'
+                                            ? 'bg-primary-50 border border-primary-200'
+                                            : 'hover:bg-surface-2 border border-transparent'
                                             }`}
                                     >
                                         <FileText size={12} className="text-text-muted mt-0.5 flex-shrink-0" />
@@ -197,8 +197,8 @@ export default function Notes() {
                                     key={id}
                                     onClick={() => setMode(id)}
                                     className={`flex items-center gap-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-colors ${mode === id
-                                            ? 'bg-primary-600/30 text-primary-300'
-                                            : 'text-text-muted hover:text-text-primary'
+                                        ? 'bg-primary-100 text-primary-700'
+                                        : 'text-text-muted hover:text-text-primary'
                                         }`}
                                 >
                                     <Icon size={12} />
@@ -235,10 +235,14 @@ export default function Notes() {
             ) : (
                 <div className="flex-1 flex items-center justify-center text-center">
                     <div>
-                        <FileText size={36} className="text-text-muted mx-auto mb-3 opacity-40" />
-                        <p className="text-sm text-text-muted">Select a note or create one</p>
-                        <button onClick={createNote} className="mt-3 text-xs text-primary-400 hover:text-primary-300">
-                            + New Note
+                        <FileText size={36} className="text-primary-300 mx-auto mb-3" />
+                        <p className="text-sm font-medium text-text-primary mb-1">No note selected</p>
+                        <p className="text-xs text-text-muted mb-4">Select a note from the sidebar or create a new one</p>
+                        <button
+                            onClick={createNote}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium text-white bg-primary-600 hover:bg-primary-700 px-3 py-2 rounded-lg transition-colors"
+                        >
+                            <Plus size={12} /> New Note
                         </button>
                     </div>
                 </div>
