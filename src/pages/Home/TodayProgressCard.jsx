@@ -1,17 +1,33 @@
 import { motion } from 'framer-motion'
 import { Target, Flame, BookOpenCheck } from 'lucide-react'
 
-const stats = [
-    { label: 'Topics Studied', value: 3, icon: BookOpenCheck, color: 'rgba(26,158,109,0.85)' },
-    { label: 'Questions Asked', value: 12, icon: Target, color: 'rgba(196,98,45,0.85)' },
-    { label: 'Min Today', value: 47, icon: Flame, color: 'rgba(26,158,109,0.65)' },
+
+
+export default function TodayProgressCard({ isNewStudent = false }) {
+    const stats = [
+    {
+        label: 'Topics Studied',
+        value: isNewStudent ? 0 : 3,
+        icon: BookOpenCheck,
+        color: 'rgba(26,158,109,0.85)',
+    },
+    {
+        label: 'Questions Asked',
+        value: isNewStudent ? 0 : 12,
+        icon: Target,
+        color: 'rgba(196,98,45,0.85)',
+    },
+    {
+        label: 'Min Today',
+        value:  isNewStudent ? 0 : 47,
+        icon: Flame,
+        color: 'rgba(26,158,109,0.65)',
+    },
 ]
 
 // Goal: study 60 min today
 const GOAL = 60
-const actual = 47
-
-export default function TodayProgressCard() {
+const actual =  isNewStudent ? 0 : 47
     const pct = Math.min((actual / GOAL) * 100, 100)
     const r = 32
     const circ = 2 * Math.PI * r
@@ -55,7 +71,7 @@ export default function TodayProgressCard() {
                         {actual} / {GOAL} min
                     </div>
                     <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
-                        Daily study goal
+                        {isNewStudent ? 'Start your first study session' : 'Daily study goal'}
                     </div>
                 </div>
             </div>

@@ -2,25 +2,23 @@ import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-    Home,
-    MessageSquare,
-    FileText,
-    RotateCcw,
-    ChevronLeft,
-    ChevronRight,
-    Plus,
-    X,
-    Sun,
-    Moon
+    Home, MessageSquare, FileText, RotateCcw,
+    ChevronLeft, ChevronRight, Plus, X, Sun, Moon, LogOut
 } from 'lucide-react'
-
 const navItems = [
     { to: '/', icon: Home, label: 'Learning Hub' },
     { to: '/tutor', icon: MessageSquare, label: 'AI Tutor' },
     { to: '/notes', icon: FileText, label: 'My Notes' },
     { to: '/revision', icon: RotateCcw, label: 'Revision' },
 ]
-
+function getCurrentUser() {
+    try {
+        const u = localStorage.getItem('scholera_current_user')
+        return u ? JSON.parse(u) : null
+    } catch {
+        return null
+    }
+}
 export default function Sidebar({
     isOpen,
     setIsOpen,
@@ -32,12 +30,17 @@ export default function Sidebar({
     const [recentChats, setRecentChats] = useState([])
 
     const navigate = useNavigate()
+    const user = getCurrentUser()
 
+    const firstName = user?.name?.split(' ')[0] || 'there'
+
+    
+    const isNewStudent = user?.id === 'stu_0031'
     // Load conversation history
     useEffect(() => {
         const loadConversation = async () => {
             try {
-                const response = await fetch('/conversation.json')
+                const response = !isNewStudent? await fetch('/conversation.json'):await fetch('/conversation-empty.json')
 
                 if (!response.ok) {
                     throw new Error('conversation.json not found')
@@ -54,6 +57,10 @@ export default function Sidebar({
                 const firstUserMessage = data.messages.find(
                     message => message.role === 'user'
                 )
+                if (!firstUserMessage) {
+    setRecentChats([])
+    return
+}
 
                 // Create a short ChatGPT-style title
                 let title = 'New conversation'
@@ -103,7 +110,7 @@ export default function Sidebar({
         }
 
         loadConversation()
-    }, [])
+    }, [isNewStudent])
 
     // Mobile sidebar
     if (isMobile) {
@@ -195,6 +202,10 @@ function SidebarContent({
     theme,
     onToggleTheme
 }) {
+    function handleLogout() {
+        localStorage.removeItem('scholera_current_user')
+        navigate('/login')
+    }
     return (
         <div className="flex flex-col h-full">
 
@@ -267,9 +278,8 @@ function SidebarContent({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => navigate('/tutor')}
-                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-all text-sm font-medium shadow-glow-sm ${
-                        collapsed ? 'justify-center' : ''
-                    }`}
+                    className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-all text-sm font-medium shadow-glow-sm ${collapsed ? 'justify-center' : ''
+                        }`}
                 >
                     <Plus size={16} />
 
@@ -298,9 +308,8 @@ function SidebarContent({
                                 whileHover={{
                                     x: collapsed ? 0 : 2
                                 }}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${
-                                    collapsed ? 'justify-center' : ''
-                                }`}
+                                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${collapsed ? 'justify-center' : ''
+                                    }`}
                                 style={{
                                     background: isActive
                                         ? 'rgba(26,158,109,0.1)'
@@ -381,7 +390,6 @@ function SidebarContent({
                         </p>
 
                     ) : (
-
                         <div className="space-y-1">
 
                             {recentChats.slice(0, 8).map(chat => (
@@ -459,9 +467,8 @@ function SidebarContent({
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     onClick={onToggleTheme}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${
-                        collapsed ? 'justify-center' : ''
-                    }`}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${collapsed ? 'justify-center' : ''
+                        }`}
                     style={{
                         color: 'var(--text-secondary)',
                         background: 'var(--surface-2)',
@@ -493,6 +500,32 @@ function SidebarContent({
                         </span>
                     )}
 
+                </motion.button>
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={handleLogout}
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all ${collapsed ? 'justify-center' : ''
+                        }`}
+                    style={{
+                        color: '#B84A3A',
+                        background: 'transparent',
+                        border: '1px solid transparent'
+                    }}
+                    onMouseEnter={e => {
+                        e.currentTarget.style.background = 'rgba(184,74,58,0.08)'
+                        e.currentTarget.style.borderColor = 'rgba(184,74,58,0.15)'
+                    }}
+                    onMouseLeave={e => {
+                        e.currentTarget.style.background = 'transparent'
+                        e.currentTarget.style.borderColor = 'transparent'
+                    }}
+                >
+                    <LogOut size={16} className="flex-shrink-0" />
+
+                    {!collapsed && (
+                        <span>Logout</span>
+                    )}
                 </motion.button>
 
             </div>

@@ -128,15 +128,34 @@ function getNode(id) {
     return NODES.find(node => node.id === id)
 }
 
-export default function LearningMapCard() {
+export default function LearningMapCard({ isNewStudent = false }) {
 
-    const [selected, setSelected] = useState('ensemble')
 
-    const completed = NODES.filter(node => node.status === 'done').length
-    const explored = NODES.filter(node => node.status !== 'todo').length
-    const journey = Math.round((explored / NODES.length) * 100)
+    const [selected, setSelected] = useState(null)
 
-    const selectedNode = getNode(selected)
+    const displayNodes = isNewStudent
+        ? NODES.map(node => ({
+            ...node,
+            score: null,
+            status: 'todo',
+        }))
+        : NODES
+
+    const completed = displayNodes.filter(
+        node => node.status === 'done'
+    ).length
+
+    const explored = displayNodes.filter(
+        node => node.status !== 'todo'
+    ).length
+
+    const journey = Math.round(
+        (explored / displayNodes.length) * 100
+    )
+
+    const selectedNode = displayNodes.find(
+        node => node.id === selected
+    )
 
     return (
         <motion.div
@@ -343,11 +362,12 @@ export default function LearningMapCard() {
 
                     {/* NODE CARDS */}
 
-                    {NODES.map(node => {
+                    {displayNodes.map(node => {
 
                         const style = STATUS_STYLE[node.status]
                         const Icon = style.icon
                         const isSelected = selected === node.id
+                        const isFirstTopic = isNewStudent && node.id === 'intro'
 
                         return (
                             <motion.button
@@ -374,12 +394,17 @@ export default function LearningMapCard() {
                                     background:
                                         isSelected
                                             ? 'rgba(26,158,109,0.12)'
-                                            : style.background,
+                                            : isFirstTopic
+                                                ? 'rgba(26,158,109,0.06)'
+                                                : style.background,
 
                                     border:
                                         `1.5px solid ${isSelected
                                             ? '#1A9E6D'
-                                            : style.border}`,
+                                            : isFirstTopic
+                                                ? 'rgba(26,158,109,0.35)'
+                                                : style.border
+                                        }`,
 
                                     boxShadow:
                                         isSelected
@@ -405,7 +430,7 @@ export default function LearningMapCard() {
                                             color: style.text
                                         }}
                                     >
-                                        {node.score}%
+                                        {node.score === null ? 'Not started' : `${node.score}%`}
                                     </span>
 
                                 </div>
@@ -428,9 +453,12 @@ export default function LearningMapCard() {
                                 <div
                                     className="text-[10px] mt-1"
                                     style={{
-                                        color: 'var(--text-muted)'
+                                        color: isFirstTopic
+                                            ? '#1A9E6D'
+                                            : 'var(--text-muted)'
                                     }}
                                 >
+                                    {isFirstTopic ? 'Start here · ' : ''}
                                     {node.lecture}
                                 </div>
 
@@ -448,7 +476,7 @@ export default function LearningMapCard() {
                                     <div
                                         className="h-full rounded-full"
                                         style={{
-                                            width: `${node.score}%`,
+                                            width: `${node.score ?? 0}%`,
                                             background:
                                                 node.status === 'review'
                                                     ? '#A84E24'
@@ -465,16 +493,20 @@ export default function LearningMapCard() {
 
                     {/* CURRENT POSITION LABEL */}
 
-                    <div
-                        className="absolute text-[9px] font-bold tracking-wide"
-                        style={{
-                            left: '895px',
-                            top: '205px',
-                            color: '#438A6A'
-                        }}
-                    >
-                        YOU ARE HERE
-                    </div>
+                    {/* CURRENT POSITION LABEL */}
+
+                    {!isNewStudent && (
+                        <div
+                            className="absolute text-[9px] font-bold tracking-wide"
+                            style={{
+                                left: '895px',
+                                top: '205px',
+                                color: '#438A6A'
+                            }}
+                        >
+                            YOU ARE HERE
+                        </div>
+                    )}
 
                 </div>
 
@@ -531,10 +563,9 @@ export default function LearningMapCard() {
                                             ].text,
 
                                         border:
-                                            `1px solid ${
-                                                STATUS_STYLE[
-                                                    selectedNode.status
-                                                ].border
+                                            `1px solid ${STATUS_STYLE[
+                                                selectedNode.status
+                                            ].border
                                             }`
                                     }}
                                 >
@@ -561,21 +592,23 @@ export default function LearningMapCard() {
                                         ? 'This is your current learning position.'
                                         : selectedNode.status === 'review'
                                             ? 'You have covered this topic but should revise it.'
-                                            : 'This concept is coming next in your learning journey.'}
+                                            : 'You have not started this topic yet.'}
                             </p>
 
                         </div>
 
 
-                        <div
-                            className="flex items-center gap-1 text-xs font-medium"
-                            style={{
-                                color: '#438A6A'
-                            }}
-                        >
-                            Next
-                            <ArrowRight size={13} />
-                        </div>
+                        {!isNewStudent && (
+                            <div
+                                className="flex items-center gap-1 text-xs font-medium"
+                                style={{
+                                    color: '#438A6A'
+                                }}
+                            >
+                                Next
+                                <ArrowRight size={13} />
+                            </div>
+                        )}
 
                     </div>
 

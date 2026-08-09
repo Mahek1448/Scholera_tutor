@@ -53,16 +53,20 @@ function scoreToColor(score) {
     }
 }
 
-export default function HeatmapCard() {
+export default function HeatmapCard({ isNewStudent = false }) {
     const [hovered, setHovered] = useState(null)
 
-    const avg = Math.round(
+    const avg = isNewStudent ? 0 : Math.round(
         TOPICS.reduce((sum, topic) => sum + topic.score, 0) / TOPICS.length
     )
 
-    const strong = TOPICS.filter(topic => topic.score >= 80).length
-    const needsWork = TOPICS.filter(topic => topic.score < 40).length
+    const strong = isNewStudent
+        ? 0
+        : TOPICS.filter(topic => topic.score >= 80).length
 
+    const needsWork = isNewStudent
+        ? 0
+        : TOPICS.filter(topic => topic.score < 40).length
     return (
         <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -86,7 +90,9 @@ export default function HeatmapCard() {
                         className="text-xs mt-0.5"
                         style={{ color: 'var(--text-muted)' }}
                     >
-                        Hover a topic to see your understanding
+                        {isNewStudent
+                            ? 'Start studying to build your understanding'
+                            : 'Hover a topic to see your understanding'}
                     </p>
                 </div>
 
@@ -144,182 +150,200 @@ export default function HeatmapCard() {
                 </div>
             </div>
 
+            {isNewStudent && (
+                <div className="py-8 text-center">
+                    <p
+                        className="text-xs font-medium"
+                        style={{ color: 'var(--text-primary)' }}
+                    >
+                        No topics assessed yet
+                    </p>
 
+                    <p
+                        className="text-[10px] mt-1"
+                        style={{ color: 'var(--text-muted)' }}
+                    >
+                        Start studying to see your understanding grow here.
+                    </p>
+                </div>
+            )}
             {/* Topic Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {!isNewStudent && (
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
 
-                {TOPICS.map((topic, index) => {
+                    {TOPICS.map((topic, index) => {
 
-                    const { bg, text, label } = scoreToColor(topic.score)
+                        const { bg, text, label } = scoreToColor(topic.score)
 
-                    const isHovered = hovered === index
+                        const isHovered = hovered === index
 
-                    return (
-                        <motion.div
-                            key={topic.name}
+                        return (
+                            <motion.div
+                                key={topic.name}
 
-                            whileHover={{
-                                scale: 1.035,
-                                y: -2,
-                                zIndex: 20
-                            }}
-
-                            transition={{
-                                type: 'spring',
-                                stiffness: 400,
-                                damping: 20
-                            }}
-
-                            onHoverStart={() => setHovered(index)}
-                            onHoverEnd={() => setHovered(null)}
-
-                            className="relative h-11 min-w-0 rounded-lg px-2 cursor-default flex items-center justify-center overflow-visible"
-
-                            style={{
-                                background: bg,
-                                color: text,
-                                boxShadow: isHovered
-                                    ? '0 6px 16px rgba(0,0,0,0.10)'
-                                    : 'none'
-                            }}
-                        >
-
-                            {/* Topic name */}
-                            <span
-                                className="text-[10px] sm:text-[11px] font-medium leading-tight text-center truncate w-full"
-                                style={{ color: text }}
-                                title={topic.name}
-                            >
-                                {topic.name}
-                            </span>
-
-
-                            {/* Score indicator */}
-                            <div
-                                className="absolute bottom-0 left-0 h-0.5 rounded-b-lg"
-                                style={{
-                                    width: `${topic.score}%`,
-                                    background: 'rgba(255,255,255,0.45)'
+                                whileHover={{
+                                    scale: 1.035,
+                                    y: -2,
+                                    zIndex: 20
                                 }}
-                            />
 
+                                transition={{
+                                    type: 'spring',
+                                    stiffness: 400,
+                                    damping: 20
+                                }}
 
-                            {/* Hover information */}
-                            {isHovered && (
-                                <motion.div
-                                    initial={{
-                                        opacity: 0,
-                                        y: 5,
-                                        scale: 0.95
-                                    }}
+                                onHoverStart={() => setHovered(index)}
+                                onHoverEnd={() => setHovered(null)}
 
-                                    animate={{
-                                        opacity: 1,
-                                        y: 0,
-                                        scale: 1
-                                    }}
+                                className="relative h-11 min-w-0 rounded-lg px-2 cursor-default flex items-center justify-center overflow-visible"
 
-                                    transition={{
-                                        duration: 0.15
-                                    }}
+                                style={{
+                                    background: bg,
+                                    color: text,
+                                    boxShadow: isHovered
+                                        ? '0 6px 16px rgba(0,0,0,0.10)'
+                                        : 'none'
+                                }}
+                            >
 
-                                    className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 w-max max-w-[190px] px-3 py-2 rounded-lg shadow-lg z-50 pointer-events-none"
-
-                                    style={{
-                                        background: 'var(--surface)',
-                                        border: '1px solid var(--border)',
-                                        color: 'var(--text-primary)'
-                                    }}
+                                {/* Topic name */}
+                                <span
+                                    className="text-[10px] sm:text-[11px] font-medium leading-tight text-center truncate w-full"
+                                    style={{ color: text }}
+                                    title={topic.name}
                                 >
+                                    {topic.name}
+                                </span>
 
-                                    <div className="text-[11px] font-semibold">
-                                        {topic.name}
-                                    </div>
 
-                                    <div
-                                        className="text-[10px] mt-0.5"
+                                {/* Score indicator */}
+                                <div
+                                    className="absolute bottom-0 left-0 h-0.5 rounded-b-lg"
+                                    style={{
+                                        width: `${topic.score}%`,
+                                        background: 'rgba(255,255,255,0.45)'
+                                    }}
+                                />
+
+
+                                {/* Hover information */}
+                                {isHovered && (
+                                    <motion.div
+                                        initial={{
+                                            opacity: 0,
+                                            y: 5,
+                                            scale: 0.95
+                                        }}
+
+                                        animate={{
+                                            opacity: 1,
+                                            y: 0,
+                                            scale: 1
+                                        }}
+
+                                        transition={{
+                                            duration: 0.15
+                                        }}
+
+                                        className="absolute bottom-[calc(100%+8px)] left-1/2 -translate-x-1/2 w-max max-w-[190px] px-3 py-2 rounded-lg shadow-lg z-50 pointer-events-none"
+
                                         style={{
-                                            color: 'var(--text-muted)'
+                                            background: 'var(--surface)',
+                                            border: '1px solid var(--border)',
+                                            color: 'var(--text-primary)'
                                         }}
                                     >
-                                        {topic.category}
-                                    </div>
 
-                                    <div className="flex items-center gap-2 mt-1.5">
+                                        <div className="text-[11px] font-semibold">
+                                            {topic.name}
+                                        </div>
 
-                                        <span className="text-[11px] font-bold">
-                                            {topic.score}%
-                                        </span>
-
-                                        <span
-                                            className="text-[10px]"
+                                        <div
+                                            className="text-[10px] mt-0.5"
                                             style={{
                                                 color: 'var(--text-muted)'
                                             }}
                                         >
-                                            {label}
-                                        </span>
+                                            {topic.category}
+                                        </div>
 
-                                    </div>
+                                        <div className="flex items-center gap-2 mt-1.5">
 
-                                </motion.div>
-                            )}
+                                            <span className="text-[11px] font-bold">
+                                                {topic.score}%
+                                            </span>
 
-                        </motion.div>
-                    )
-                })}
+                                            <span
+                                                className="text-[10px]"
+                                                style={{
+                                                    color: 'var(--text-muted)'
+                                                }}
+                                            >
+                                                {label}
+                                            </span>
 
-            </div>
+                                        </div>
+
+                                    </motion.div>
+                                )}
+
+                            </motion.div>
+                        )
+                    })}
+
+                </div>)}
 
 
             {/* Legend */}
-            <div className="flex items-center gap-x-4 gap-y-2 mt-8 flex-wrap">
+            {!isNewStudent && (
+                <div className="flex items-center gap-x-4 gap-y-2 mt-8 flex-wrap">
 
-                {[
-                    {
-                        label: '80–100% Strong',
-                        bg: 'rgba(26,158,109,0.85)'
-                    },
-                    {
-                        label: '60–79% Good',
-                        bg: 'rgba(26,158,109,0.40)'
-                    },
-                    {
-                        label: '40–59% Weak',
-                        bg: 'rgba(196,98,45,0.40)'
-                    },
-                    {
-                        label: '0–39% Review',
-                        bg: 'rgba(196,98,45,0.85)'
-                    }
-                ].map(item => (
-
-                    <div
-                        key={item.label}
-                        className="flex items-center gap-1.5"
-                    >
+                    {[
+                        {
+                            label: '80–100% Strong',
+                            bg: 'rgba(26,158,109,0.85)'
+                        },
+                        {
+                            label: '60–79% Good',
+                            bg: 'rgba(26,158,109,0.40)'
+                        },
+                        {
+                            label: '40–59% Weak',
+                            bg: 'rgba(196,98,45,0.40)'
+                        },
+                        {
+                            label: '0–39% Review',
+                            bg: 'rgba(196,98,45,0.85)'
+                        }
+                    ].map(item => (
 
                         <div
-                            className="w-3 h-3 rounded-sm shrink-0"
-                            style={{
-                                background: item.bg
-                            }}
-                        />
-
-                        <span
-                            className="text-[10px]"
-                            style={{
-                                color: 'var(--text-muted)'
-                            }}
+                            key={item.label}
+                            className="flex items-center gap-1.5"
                         >
-                            {item.label}
-                        </span>
 
-                    </div>
+                            <div
+                                className="w-3 h-3 rounded-sm shrink-0"
+                                style={{
+                                    background: item.bg
+                                }}
+                            />
 
-                ))}
+                            <span
+                                className="text-[10px]"
+                                style={{
+                                    color: 'var(--text-muted)'
+                                }}
+                            >
+                                {item.label}
+                            </span>
 
-            </div>
+                        </div>
+
+                    ))}
+
+                </div>)}
 
         </motion.div>
     )

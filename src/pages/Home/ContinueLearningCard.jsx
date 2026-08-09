@@ -13,8 +13,102 @@ const lastTopic = {
     timeSpent: '24 min',
 }
 
-export default function ContinueLearningCard() {
+export default function ContinueLearningCard({ isNewStudent = false }) {
     const navigate = useNavigate()
+    if (isNewStudent) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.4 }}
+            className="card p-5 h-full flex flex-col"
+        >
+            {/* Header */}
+            <div className="flex items-center gap-3">
+                <div
+                    className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{
+                        background: 'rgba(26,158,109,0.1)',
+                        border: '1px solid rgba(26,158,109,0.2)'
+                    }}
+                >
+                    <BookOpen size={17} color="#1A9E6D" />
+                </div>
+
+                <div className="min-w-0">
+                    <div
+                        className="text-[10px] font-medium mb-0.5"
+                        style={{ color: 'var(--text-muted)' }}
+                    >
+                        Start learning
+                    </div>
+
+                    <div
+                        className="text-base font-semibold"
+                        style={{ color: 'var(--text-primary)' }}
+                    >
+                        Nothing here yet
+                    </div>
+                </div>
+            </div>
+
+            {/* Empty state */}
+            <div className="flex-1 flex flex-col justify-center py-6 text-center">
+                <div
+                    className="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center"
+                    style={{
+                        background: 'rgba(26,158,109,0.08)'
+                    }}
+                >
+                    <BookOpen size={18} color="#1A9E6D" />
+                </div>
+
+                <p
+                    className="text-xs font-medium"
+                    style={{ color: 'var(--text-primary)' }}
+                >
+                    Your learning starts here
+                </p>
+
+                <p
+                    className="text-[10px] mt-1 leading-relaxed"
+                    style={{ color: 'var(--text-muted)' }}
+                >
+                    Start your first session and your recent
+                    learning will appear here.
+                </p>
+            </div>
+
+            {/* Button */}
+            <motion.button
+                whileHover={{
+                    x: 2,
+                    boxShadow: '0 5px 14px rgba(26,158,109,0.12)'
+                }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => navigate('/tutor')}
+                className="w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all"
+                style={{
+                    background: 'rgba(26,158,109,0.07)',
+                    border: '1px solid rgba(26,158,109,0.18)',
+                    color: '#137F57'
+                }}
+                onMouseEnter={e => {
+                    e.currentTarget.style.background =
+                        'rgba(26,158,109,0.12)'
+                }}
+                onMouseLeave={e => {
+                    e.currentTarget.style.background =
+                        'rgba(26,158,109,0.07)'
+                }}
+            >
+                Start Learning
+                <ArrowRight size={13} />
+            </motion.button>
+        </motion.div>
+    )
+}
+    
 
     return (
         <motion.div

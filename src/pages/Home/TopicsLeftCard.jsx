@@ -10,8 +10,9 @@ const UPCOMING = [
     { title: 'Bayesian Optimization', lecture: 'Lecture 11', slides: 19 },
 ]
 
-export default function TopicsLeftCard() {
+export default function TopicsLeftCard({ newStudent = false }) {
     const navigate = useNavigate()
+    
 
     return (
         <motion.div
@@ -22,8 +23,8 @@ export default function TopicsLeftCard() {
         >
             <div className="flex items-center justify-between mb-3">
                 <div>
-                    <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>Topics Ahead</h3>
-                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{UPCOMING.length} topics not yet covered</p>
+                    <h3 className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{newStudent ? 'Topics to Explore' : 'Topics Ahead'}</h3>
+                    <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{newStudent ? 0 : UPCOMING.length} topics not yet covered</p>
                 </div>
                 <div className="w-7 h-7 rounded-full flex items-center justify-center"
                     style={{ background: 'rgba(196,98,45,0.1)', border: '1px solid rgba(196,98,45,0.25)' }}>
@@ -32,7 +33,7 @@ export default function TopicsLeftCard() {
             </div>
 
             <div className="space-y-1.5">
-                {UPCOMING.map((topic, i) => (
+                { UPCOMING.map((topic, i) => (
                     <motion.button
                         key={i}
                         whileHover={{ x: 2 }}

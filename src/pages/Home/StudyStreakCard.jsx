@@ -11,7 +11,7 @@ const LEVEL_COLORS = [
     'rgba(26,158,109,0.92)',
 ]
 
-function generateStreakData() {
+function generateStreakData(newStudent=false) {
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
@@ -26,6 +26,21 @@ function generateStreakData() {
     start.setDate(start.getDate() - mondayOffset)
 
     const data = []
+    if (newStudent) {
+    for (let i = 0; i < 196; i++) {
+        const date = new Date(start)
+        date.setDate(start.getDate() + i)
+
+        if (date > today) break
+
+        data.push({
+            date,
+            level: 0,
+        })
+    }
+
+    return data
+}
 
     for (let i = 0; i < 196; i++) {
         const date = new Date(start)
@@ -90,10 +105,12 @@ function Stat({ label, value }) {
     )
 }
 
-export default function StudyStreakCard() {
+export default function StudyStreakCard({ newStudent = false }) {
 
-    const data = useMemo(() => generateStreakData(), [])
-
+    const data = useMemo(
+    () => generateStreakData(newStudent),
+    [newStudent]
+)
     const [hovered, setHovered] = useState(null)
 
     const weeks = useMemo(() => {
@@ -159,7 +176,10 @@ export default function StudyStreakCard() {
                             color: 'var(--text-muted)',
                         }}
                     >
-                        Your study activity over the last 6 months
+                        {newStudent
+    ? 'Start studying to build your streak'
+    : 'Your study activity over the last 6 months'
+}
                     </p>
 
                 </div>
