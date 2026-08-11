@@ -222,8 +222,8 @@ function SidebarContent({
                 <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white font-bold"
                     style={{
-                        background: '#286B4A',
-                        boxShadow: '0 4px 12px rgba(40,107,74,0.2)'
+                        background: '#1565C0',
+boxShadow: '0 4px 12px rgba(21,101,192,0.2)'
                     }}
                 >
                     S
@@ -280,6 +280,17 @@ function SidebarContent({
                     onClick={() => navigate('/tutor')}
                     className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-all text-sm font-medium shadow-glow-sm ${collapsed ? 'justify-center' : ''
                         }`}
+                    style={{
+    background: '#1565C0',
+    boxShadow: '0 4px 14px rgba(21,101,192,0.20)'
+}}
+onMouseEnter={e => {
+    e.currentTarget.style.background = '#0D47A1'
+}}
+
+onMouseLeave={e => {
+    e.currentTarget.style.background = '#1565C0'
+}}
                 >
                     <Plus size={16} />
 
@@ -311,17 +322,17 @@ function SidebarContent({
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${collapsed ? 'justify-center' : ''
                                     }`}
                                 style={{
-                                    background: isActive
-                                        ? 'rgba(26,158,109,0.1)'
-                                        : 'transparent',
+                                   background: isActive
+    ? 'rgba(21,101,192,0.1)'
+    : 'transparent',
 
-                                    border: isActive
-                                        ? '1px solid rgba(26,158,109,0.2)'
-                                        : '1px solid transparent',
+border: isActive
+    ? '1px solid rgba(21,101,192,0.2)'
+    : '1px solid transparent',
 
-                                    color: isActive
-                                        ? '#1A9E6D'
-                                        : 'var(--text-secondary)'
+color: isActive
+    ? '#1565C0'
+    : 'var(--text-secondary)'
                                 }}
 
                                 onMouseEnter={e => {
@@ -349,7 +360,8 @@ function SidebarContent({
                                 )}
 
                                 {isActive && !collapsed && (
-                                    <div className="ml-auto w-1.5 h-1.5 rounded-full bg-primary-500" />
+                                    <div className="ml-auto w-1.5 h-1.5 rounded-full" 
+                                     style={{ background: '#1565C0' }}/>
                                 )}
 
                             </motion.div>

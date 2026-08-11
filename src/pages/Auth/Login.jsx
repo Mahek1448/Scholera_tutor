@@ -144,7 +144,7 @@ export default function Login() {
             <div
                 className="hidden lg:flex flex-col justify-between w-[420px] flex-shrink-0 p-10 relative"
                 style={{
-                    background: '#1A3C34',
+                    background: '#1A237E',
                     borderRight: '1px solid rgba(255,255,255,0.08)'
                 }}
             >
@@ -268,11 +268,11 @@ export default function Login() {
                                     }}
                                     onFocus={e =>
                                         e.currentTarget.style.borderColor =
-                                            '#1A9E6D'
+                                        '#1565C0'
                                     }
                                     onBlur={e =>
                                         e.currentTarget.style.borderColor =
-                                            '#D5CBC0'
+                                        '#D5CBC0'
                                     }
                                     autoComplete="username"
                                 />
@@ -314,11 +314,11 @@ export default function Login() {
                                     }}
                                     onFocus={e =>
                                         e.currentTarget.style.borderColor =
-                                            '#1A9E6D'
+                                        '#1565C0'
                                     }
                                     onBlur={e =>
                                         e.currentTarget.style.borderColor =
-                                            '#D5CBC0'
+                                        '#D5CBC0'
                                     }
                                     autoComplete="current-password"
                                 />
@@ -345,13 +345,13 @@ export default function Login() {
                         <div
                             className="rounded-xl px-3.5 py-3 text-xs"
                             style={{
-                                background: 'rgba(26,158,109,0.06)',
-                                border: '1px solid rgba(26,158,109,0.15)',
+                                background: 'rgba(21,101,192,0.06)',
+                                border: '1px solid rgba(21,101,192,0.15)',
                             }}
                         >
                             <p
                                 className="font-semibold mb-1"
-                                style={{ color: '#137F57' }}
+                                style={{ color: '#1565C0' }}
                             >
                                 Demo accounts
                             </p>

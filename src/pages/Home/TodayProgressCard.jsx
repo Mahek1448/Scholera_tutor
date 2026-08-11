@@ -5,29 +5,29 @@ import { Target, Flame, BookOpenCheck } from 'lucide-react'
 
 export default function TodayProgressCard({ isNewStudent = false }) {
     const stats = [
-    {
-        label: 'Topics Studied',
-        value: isNewStudent ? 0 : 3,
-        icon: BookOpenCheck,
-        color: 'rgba(26,158,109,0.85)',
-    },
-    {
-        label: 'Questions Asked',
-        value: isNewStudent ? 0 : 12,
-        icon: Target,
-        color: 'rgba(196,98,45,0.85)',
-    },
-    {
-        label: 'Min Today',
-        value:  isNewStudent ? 0 : 47,
-        icon: Flame,
-        color: 'rgba(26,158,109,0.65)',
-    },
-]
+        {
+            label: 'Topics Studied',
+            value: isNewStudent ? 0 : 3,
+            icon: BookOpenCheck,
+            color: 'rgba(21,101,192,0.85)',
+        },
+        {
+            label: 'Questions Asked',
+            value: isNewStudent ? 0 : 12,
+            icon: Target,
+            color: 'rgba(21,101,192,0.75)',
+        },
+        {
+            label: 'Min Today',
+            value: isNewStudent ? 0 : 47,
+            icon: Flame,
+            color: 'rgba(21,101,192,0.65)',
+        },
+    ]
 
-// Goal: study 60 min today
-const GOAL = 60
-const actual =  isNewStudent ? 0 : 47
+    // Goal: study 60 min today
+    const GOAL = 60
+    const actual = isNewStudent ? 0 : 47
     const pct = Math.min((actual / GOAL) * 100, 100)
     const r = 32
     const circ = 2 * Math.PI * r
@@ -51,7 +51,7 @@ const actual =  isNewStudent ? 0 : 47
                         <motion.circle
                             cx="42" cy="42" r={r} fill="none"
                             strokeWidth="7"
-                            stroke="#1A9E6D"
+                            stroke="#1565C0"
                             strokeLinecap="round"
                             strokeDasharray={circ}
                             initial={{ strokeDashoffset: circ }}

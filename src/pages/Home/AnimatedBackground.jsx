@@ -7,9 +7,9 @@ const SYMBOLS = [
 ]
 
 const COLORS = [
-    'rgba(26,158,109,', // teal primary
-    'rgba(196,98,45,',  // terracotta
-    'rgba(93,135,100,', // sage
+    'rgba(21,101,192,',  // blue primary
+    'rgba(153,0,255,',   // purple review
+    'rgba(100,181,246,', // light blue
 ]
 
 export default function AnimatedBackground() {
@@ -79,7 +79,7 @@ export default function AnimatedBackground() {
 
                 ctx.beginPath()
                 ctx.arc(dot.x, dot.y, dot.r, 0, Math.PI * 2)
-                ctx.fillStyle = `rgba(26,158,109,${dot.alpha})`
+                ctx.fillStyle = `rgba(21,101,192,${dot.alpha})`
                 ctx.fill()
             }
 

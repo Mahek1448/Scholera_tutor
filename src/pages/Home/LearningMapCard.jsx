@@ -96,30 +96,29 @@ const CONNECTIONS = [
 
 const STATUS_STYLE = {
     done: {
-        background: 'rgba(26,158,109,0.10)',
-        border: 'rgba(26,158,109,0.45)',
-        text: '#137F57',
+        background: 'rgba(21,101,192,0.10)',
+        border: 'rgba(21,101,192,0.45)',
+        text: '#1565C0',
         icon: CheckCircle,
     },
 
     current: {
-        background: 'rgba(26,158,109,0.13)',
-        border: '#1A9E6D',
-        text: '#137F57',
+        background: 'rgba(21,101,192,0.13)',
+        border: '#1565C0',
+        text: '#1565C0',
         icon: Clock,
     },
 
     review: {
-        background: 'rgba(196,98,45,0.10)',
-        border: 'rgba(196,98,45,0.40)',
-        text: '#A84E24',
+        background: 'rgb(153 0 255 / 10%)',
+        border: 'rgb(153 0 255 / 40%)',
+        text: '#9900FF',
         icon: Clock,
     },
-
     todo: {
-        background: 'var(--surface-2)',
-        border: 'var(--border)',
-        text: 'var(--text-muted)',
+        background: 'rgb(226 201 255 / 42%)',
+        border: '#D6B8F5',
+        text: '#8A5CC7',
         icon: Circle,
     },
 }
@@ -174,13 +173,13 @@ export default function LearningMapCard({ isNewStudent = false }) {
                     <div
                         className="w-10 h-10 rounded-xl flex items-center justify-center"
                         style={{
-                            background: 'rgba(26,158,109,0.08)',
-                            border: '1px solid rgba(26,158,109,0.18)'
+                            background: 'rgba(21,101,192,0.08)',
+                            border: '1px solid rgba(21,101,192,0.18)'
                         }}
                     >
                         <Map
                             size={19}
-                            color="#1A9E6D"
+                            color="#1565C0"
                         />
                     </div>
 
@@ -226,7 +225,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                     <div className="text-right">
                         <div
                             className="text-lg font-bold"
-                            style={{ color: '#438A6A' }}
+                            style={{ color: '#1565C0' }}
                         >
                             {journey}%
                         </div>
@@ -292,7 +291,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
             <div
                 className="relative overflow-x-auto no-scrollbar rounded-xl"
                 style={{
-                    background: 'rgba(26,158,109,0.015)'
+                    background: 'rgba(21,101,192,0.015)'
                 }}
             >
 
@@ -338,7 +337,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                                           ${endX} ${endY}
                                     `}
                                     fill="none"
-                                    stroke="rgba(26,158,109,0.28)"
+                                    stroke="rgba(21,101,192,0.28)"
                                     strokeWidth="2"
                                     strokeDasharray="5 5"
                                     initial={{
@@ -393,22 +392,22 @@ export default function LearningMapCard({ isNewStudent = false }) {
 
                                     background:
                                         isSelected
-                                            ? 'rgba(26,158,109,0.12)'
+                                            ? 'rgba(21,101,192,0.12)'
                                             : isFirstTopic
-                                                ? 'rgba(26,158,109,0.06)'
+                                                ? 'rgba(21,101,192,0.06)'
                                                 : style.background,
 
                                     border:
                                         `1.5px solid ${isSelected
-                                            ? '#1A9E6D'
+                                            ? '#1565C0'
                                             : isFirstTopic
-                                                ? 'rgba(26,158,109,0.35)'
+                                                ? 'rgba(21,101,192,0.35)'
                                                 : style.border
                                         }`,
 
                                     boxShadow:
                                         isSelected
-                                            ? '0 0 0 3px rgba(26,158,109,0.10), 0 8px 20px rgba(0,0,0,0.06)'
+                                            ? '0 0 0 3px rgba(21,101,192,0.15), 0 8px 20px rgba(0,0,0,0.06)'
                                             : '0 3px 10px rgba(0,0,0,0.03)'
                                 }}
                             >
@@ -454,7 +453,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                                     className="text-[10px] mt-1"
                                     style={{
                                         color: isFirstTopic
-                                            ? '#1A9E6D'
+                                            ? '#1565C0'
                                             : 'var(--text-muted)'
                                     }}
                                 >
@@ -479,8 +478,8 @@ export default function LearningMapCard({ isNewStudent = false }) {
                                             width: `${node.score ?? 0}%`,
                                             background:
                                                 node.status === 'review'
-                                                    ? '#A84E24'
-                                                    : '#438A6A'
+                                                    ? '#9900FF'
+                                                    : '#1565C0'
                                         }}
                                     />
 
@@ -501,7 +500,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                             style={{
                                 left: '895px',
                                 top: '205px',
-                                color: '#438A6A'
+                                color: '#1565C0'
                             }}
                         >
                             YOU ARE HERE
@@ -602,7 +601,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                             <div
                                 className="flex items-center gap-1 text-xs font-medium"
                                 style={{
-                                    color: '#438A6A'
+                                    color: '#1565C0'
                                 }}
                             >
                                 Next
@@ -635,7 +634,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                     <span
                         className="text-[10px] font-semibold"
                         style={{
-                            color: '#438A6A'
+                            color: '#1565C0'
                         }}
                     >
                         {journey}% explored
@@ -661,7 +660,7 @@ export default function LearningMapCard({ isNewStudent = false }) {
                         className="h-full rounded-full"
                         style={{
                             background:
-                                'linear-gradient(90deg, #438A6A, #1A9E6D)'
+                                'linear-gradient(90deg, #1565C0, #42A5F5)'
                         }}
                     />
 

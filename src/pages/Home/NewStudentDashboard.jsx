@@ -12,7 +12,7 @@ export default function NewStudentDashboard() {
 
     return (
         <motion.div
-            initial={{ opacity: 0, y: 10 }} 
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35 }}
             className="space-y-5"
@@ -28,7 +28,7 @@ export default function NewStudentDashboard() {
                 <div
                     className="absolute -top-16 -right-16 w-32 h-32 rounded-full pointer-events-none"
                     style={{
-                        background: 'rgba(26,158,109,0.06)',
+                        background: 'rgba(21,101,192,0.06)',
                         filter: 'blur(20px)'
                     }}
                 />
@@ -40,13 +40,13 @@ export default function NewStudentDashboard() {
                         <div
                             className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0"
                             style={{
-                                background: 'rgba(26,158,109,0.1)',
-                                border: '1px solid rgba(26,158,109,0.2)'
+                                background: 'rgba(21,101,192,0.1)',
+                                border: '1px solid rgba(21,101,192,0.2)'
                             }}
                         >
                             <Sparkles
                                 size={22}
-                                style={{ color: '#1A9E6D' }}
+                                style={{ color: '#1565C0' }}
                             />
                         </div>
 
@@ -76,8 +76,8 @@ export default function NewStudentDashboard() {
                         onClick={() => navigate('/tutor')}
                         className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white flex-shrink-0"
                         style={{
-                            background: 'linear-gradient(135deg, #1A9E6D, #137F57)',
-                            boxShadow: '0 4px 16px rgba(26,158,109,0.22)'
+                            background: 'linear-gradient(135deg, #1565C0, #0D47A1)',
+                            boxShadow: '0 4px 16px rgba(21,101,192,0.22)'
                         }}
                     >
                         Start Learning

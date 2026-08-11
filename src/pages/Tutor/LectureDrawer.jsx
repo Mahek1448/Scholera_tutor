@@ -58,7 +58,10 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
 
                 {/* Slide navigation */}
                 {lecture && (
-                    <div className="flex items-center justify-between px-6 py-2.5 bg-surface-2 border-b border-border flex-shrink-0">
+                    <div className="flex items-center justify-between px-6 py-2.5 border-b border-border flex-shrink-0"
+    style={{
+        background: '#e3eef1'
+    }}>
                         <button
                             onClick={handlePrev}
                             disabled={currentSlideIdx === 0}
@@ -66,7 +69,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                         >
                             <ChevronLeft size={16} />
                         </button>
-                        <span className="text-xs text-text-muted">
+                        <span className="text-xs text-text-muted" style={{ color: '#546e7a' }}>
                             Slide {currentSlide?.slide_number} of {lecture.slides.length}
                         </span>
                         <button
@@ -107,8 +110,13 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
 
                             {/* Bullets */}
                             {currentSlide.bullets && currentSlide.bullets.length > 0 && (
-                                <div className="bg-surface-2 rounded-xl p-4 border border-border mb-4">
-                                    <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">Key Points</div>
+                                <div className="rounded-xl p-4 border mb-4"
+    style={{
+        background: '#e3eef1',
+        borderColor: '#c7dce2'
+    }}>
+                                    <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-3" 
+        style={{ color: '#546e7a' }}>Key Points</div>
                                     <ul className="space-y-2.5">
                                         {currentSlide.bullets.map((b, i) => (
                                             <motion.li
@@ -142,9 +150,15 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
 
                             {/* Figure */}
                             {currentSlide.figure && (
-                                <div className="bg-surface-2 rounded-xl p-4 border border-border mb-4">
+                                <div className="bg-surface-2 rounded-xl p-4 border border-border mb-4" style={{
+        backgroundColor: '#e3eef1',
+        borderColor: '#c5dfe5'
+    }}>
                                     <div className="text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">Figure</div>
-                                    <div className="w-full aspect-video bg-surface-3 rounded-lg flex items-center justify-center border border-border mb-3">
+                                    <div className="w-full aspect-video bg-surface-3 rounded-lg flex items-center justify-center border border-border mb-3" style={{
+        backgroundColor: '#d4e6ea',
+        borderColor: '#c5dfe5'
+    }}>
                                         <div className="text-center p-6">
                                             <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center mx-auto mb-2">
                                                 <BookOpen size={18} className="text-primary-500" />
@@ -160,7 +174,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
 
                             {/* Professor Notes */}
                             {currentSlide.notes && (
-                                <div className="bg-amber-50 rounded-xl p-4 border border-amber-100">
+                                <div className="bg-amber-50 rounded-xl p-4 border border-amber-100" style={{backgroundColor:"rgb(255 242 235)"}}>
                                     <div className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-2">Professor Notes</div>
                                     <p className="text-xs text-text-secondary leading-relaxed">{currentSlide.notes}</p>
                                 </div>

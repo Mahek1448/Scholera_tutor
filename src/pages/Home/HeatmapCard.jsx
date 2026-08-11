@@ -24,32 +24,36 @@ const TOPICS = [
 function scoreToColor(score) {
     if (score >= 80) {
         return {
-            bg: 'rgba(26,158,109,0.85)',
-            text: 'white',
-            label: 'Strong'
+            bg: 'rgba(21,101,192,0.85)',
+            text: '#FFFFFF',
+            label: 'Strong',
+            labelColor: '#FFFFFF'
         }
     }
 
     if (score >= 60) {
         return {
-            bg: 'rgba(26,158,109,0.45)',
-            text: '#0D4F39',
-            label: 'Good'
+            bg: '#64B5F6',
+            text: '#0D47A1',
+            label: 'Good',
+            labelColor: '#1565C0'
         }
     }
 
     if (score >= 40) {
         return {
-            bg: 'rgba(196,98,45,0.45)',
-            text: '#6E2E14',
-            label: 'Weak'
+            bg: '#AEDBFF',
+            text: '#0d47a1',
+            label: 'Weak',
+            labelColor: '#7B1FA2'
         }
     }
 
     return {
-        bg: 'rgba(196,98,45,0.85)',
-        text: 'white',
-        label: 'Needs work'
+        bg: 'rgb(207 233 255)',
+        text: '#1E293B',
+        label: 'Needs work',
+        labelColor: '#1565C0'
     }
 }
 
@@ -173,7 +177,7 @@ export default function HeatmapCard({ isNewStudent = false }) {
 
                     {TOPICS.map((topic, index) => {
 
-                        const { bg, text, label } = scoreToColor(topic.score)
+                        const { bg, text, label, labelColor } = scoreToColor(topic.score)
 
                         const isHovered = hovered === index
 
@@ -274,14 +278,14 @@ export default function HeatmapCard({ isNewStudent = false }) {
                                                 {topic.score}%
                                             </span>
 
-                                            <span
-                                                className="text-[10px]"
-                                                style={{
-                                                    color: 'var(--text-muted)'
-                                                }}
-                                            >
-                                                {label}
-                                            </span>
+                                           <span
+    className="text-[10px] font-medium"
+    style={{
+        color: labelColor
+    }}
+>
+    {label}
+</span>
 
                                         </div>
 
@@ -299,25 +303,24 @@ export default function HeatmapCard({ isNewStudent = false }) {
             {!isNewStudent && (
                 <div className="flex items-center gap-x-4 gap-y-2 mt-8 flex-wrap">
 
-                    {[
-                        {
-                            label: '80–100% Strong',
-                            bg: 'rgba(26,158,109,0.85)'
-                        },
-                        {
-                            label: '60–79% Good',
-                            bg: 'rgba(26,158,109,0.40)'
-                        },
-                        {
-                            label: '40–59% Weak',
-                            bg: 'rgba(196,98,45,0.40)'
-                        },
-                        {
-                            label: '0–39% Review',
-                            bg: 'rgba(196,98,45,0.85)'
-                        }
-                    ].map(item => (
-
+                   {[
+    {
+        label: '80–100% Strong',
+        bg: 'rgba(21,101,192,0.85)'
+    },
+    {
+        label: '60–79% Good',
+        bg: '#64B5F6'
+    },
+    {
+        label: '40–59% Weak',
+        bg: '#AEDBFF'
+    },
+    {
+        label: '0–39% Review',
+        bg: 'rgb(207 233 255)'
+    }
+].map(item => (
                         <div
                             key={item.label}
                             className="flex items-center gap-1.5"

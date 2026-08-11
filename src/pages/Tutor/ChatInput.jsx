@@ -38,7 +38,7 @@ export default function ChatInput({ onSend, isStreaming, onStop }) {
                 initial={false}
                 animate={{
                     boxShadow: value.length > 0
-                        ? '0 0 0 2px rgba(26,158,109,0.25), 0 4px 16px rgba(26,158,109,0.08)'
+                        ? '0 0 0 2px rgba(21,101,192,0.25), 0 4px 16px rgba(21,101,192,0.08)'
                         : '0 1px 4px rgba(0,0,0,0.06), 0 0 0 1px #DDE1EB'
                 }}
                 className="relative flex items-end gap-2 bg-white border border-border rounded-2xl overflow-hidden"

@@ -91,7 +91,11 @@ function LectureSummaryCard({ lecture, idx }) {
                     <div className="text-xs text-text-muted mt-0.5">{lecture.slides.length} slides · {lecture.course_code}</div>
                     <div className="flex flex-wrap gap-1 mt-2">
                         {keySlides.slice(0, 4).map(s => (
-                            <span key={s.slide_number} className="text-[10px] bg-surface-2 border border-border text-text-muted px-2 py-0.5 rounded-full">
+                            <span
+                                key={s.slide_number}
+                                className="text-[10px] px-2 py-0.5 rounded-full transition-colors duration-150 hover:bg-[#bbdefb]"
+                                style={{ background: '#e3f2fd', border: '1px solid #90caf9', color: '#1565c0' }}
+                            >
                                 Slide {s.slide_number}: {s.title.slice(0, 20)}{s.title.length > 20 ? '…' : ''}
                             </span>
                         ))}
@@ -107,14 +111,20 @@ function LectureSummaryCard({ lecture, idx }) {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.25 }}
-                        className="overflow-hidden border-t border-border"
+                        className="overflow-hidden border-t border-[#90caf9]"
                     >
                         <div className="p-5">
                             {/* Key slides */}
                             <div className="text-xs font-semibold text-text-muted uppercase tracking-wide mb-3">Key Concepts</div>
                             <div className="space-y-3">
                                 {lecture.slides.filter(s => s.bullets || s.formulas).slice(0, 6).map((slide) => (
-                                    <div key={slide.slide_number} className="bg-surface-2 rounded-xl p-3 border border-border">
+                                    <div
+                                        key={slide.slide_number}
+                                        className="rounded-xl p-3 transition-all duration-150 cursor-default group"
+                                        style={{ background: '#a8deff9e', border: '1px solid #90caf9' }}
+                                        onMouseEnter={e => { e.currentTarget.style.background = '#8fcff5'; e.currentTarget.style.borderColor = '#64b5f6' }}
+                                        onMouseLeave={e => { e.currentTarget.style.background = '#a8deff9e'; e.currentTarget.style.borderColor = '#90caf9' }}
+                                    >
                                         <div className="flex items-center gap-2 mb-2">
                                             <span className="text-[10px] bg-primary-50 text-primary-600 border border-primary-200 px-1.5 py-0.5 rounded font-medium">
                                                 Slide {slide.slide_number}
@@ -178,13 +188,14 @@ export default function Revision() {
                         <button
                             key={t}
                             onClick={() => setTab(t)}
-                            className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'text-text-primary' : 'text-text-muted hover:text-text-secondary'
+                            className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-colors ${tab === t ? 'text-[#1565c0]' : 'text-text-muted hover:text-text-secondary hover:bg-[#e3f2fd]'
                                 }`}
                         >
                             {tab === t && (
                                 <motion.div
                                     layoutId="revision-tab"
-                                    className="absolute inset-0 bg-primary-100 border border-primary-200 rounded-lg"
+                                    className="absolute inset-0 rounded-lg"
+                                    style={{ background: '#bbdefb', border: '1px solid #90caf9' }}
                                 />
                             )}
                             <span className="relative z-10">{t}</span>

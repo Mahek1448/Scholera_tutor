@@ -5,10 +5,10 @@ const DAY_LABELS = ['Mon', '', 'Wed', '', 'Fri', '', 'Sun']
 
 const LEVEL_COLORS = [
     'var(--surface-2)',
-    'rgba(26,158,109,0.18)',
-    'rgba(26,158,109,0.38)',
-    'rgba(26,158,109,0.62)',
-    'rgba(26,158,109,0.92)',
+    'rgba(21,101,192,0.18)',
+    'rgba(21,101,192,0.38)',
+    'rgba(21,101,192,0.62)',
+    'rgba(21,101,192,0.92)',
 ]
 
 function generateStreakData(newStudent=false) {
@@ -367,9 +367,9 @@ export default function StudyStreakCard({ newStudent = false }) {
                                                                 day.level
                                                             ],
                                                         border:
-                                                            day.level === 0
-                                                                ? '1px solid var(--border)'
-                                                                : '1px solid rgba(26,158,109,0.18)',
+    day.level === 0
+        ? '1px solid var(--border)'
+        : '1px solid rgba(21,101,192,0.18)',
                                                     }}
                                                 />
 

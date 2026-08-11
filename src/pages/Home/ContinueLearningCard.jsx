@@ -28,11 +28,11 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                 <div
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{
-                        background: 'rgba(26,158,109,0.1)',
-                        border: '1px solid rgba(26,158,109,0.2)'
+                        background: 'rgba(21,101,192,0.1)',
+border: '1px solid rgba(21,101,192,0.2)'
                     }}
                 >
-                    <BookOpen size={17} color="#1A9E6D" />
+                    <BookOpen size={17} color="#1565C0" />
                 </div>
 
                 <div className="min-w-0">
@@ -57,10 +57,10 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                 <div
                     className="w-11 h-11 rounded-full mx-auto mb-3 flex items-center justify-center"
                     style={{
-                        background: 'rgba(26,158,109,0.08)'
+                        background: 'rgba(21,101,192,0.08)'
                     }}
                 >
-                    <BookOpen size={18} color="#1A9E6D" />
+                    <BookOpen size={18} color="#1565C0" />
                 </div>
 
                 <p
@@ -83,23 +83,23 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
             <motion.button
                 whileHover={{
                     x: 2,
-                    boxShadow: '0 5px 14px rgba(26,158,109,0.12)'
+                   boxShadow: '0 5px 14px rgba(21,101,192,0.12)'
                 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => navigate('/tutor')}
                 className="w-full flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all"
                 style={{
-                    background: 'rgba(26,158,109,0.07)',
-                    border: '1px solid rgba(26,158,109,0.18)',
-                    color: '#137F57'
+                    background: 'rgba(21,101,192,0.07)',
+border: '1px solid rgba(21,101,192,0.18)',
+color: '#1565C0'
                 }}
                 onMouseEnter={e => {
                     e.currentTarget.style.background =
-                        'rgba(26,158,109,0.12)'
+    'rgba(21,101,192,0.12)'
                 }}
                 onMouseLeave={e => {
                     e.currentTarget.style.background =
-                        'rgba(26,158,109,0.07)'
+    'rgba(21,101,192,0.07)'
                 }}
             >
                 Start Learning
@@ -132,13 +132,13 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                         flex-shrink-0
                     "
                     style={{
-                        background: 'rgba(26,158,109,0.1)',
-                        border: '1px solid rgba(26,158,109,0.2)'
-                    }}
+    background: 'rgba(21,101,192,0.1)',
+    border: '1px solid rgba(21,101,192,0.2)'
+}}
                 >
                     <BookOpen
                         size={17}
-                        color="#1A9E6D"
+                        color="#1565C0"
                     />
                 </div>
 
@@ -221,7 +221,7 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                         <span
                             className="text-[11px] font-semibold"
                             style={{
-                                color: '#137F57'
+                                color: '#0D47A1'
                             }}
                         >
                             {lastTopic.progress}%
@@ -248,7 +248,7 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                             className="h-2 rounded-full"
                             style={{
                                 background:
-                                    'linear-gradient(90deg, #1A9E6D, #38B985)'
+    'linear-gradient(90deg, #1565C0, #42A5F5)'
                             }}
                         />
 
@@ -270,10 +270,10 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                     items-center
                     justify-between
                 "
-                style={{
-                    background: 'rgba(26,158,109,0.045)',
-                    border: '1px solid rgba(26,158,109,0.12)'
-                }}
+               style={{
+    background: 'rgba(21,101,192,0.045)',
+    border: '1px solid rgba(21,101,192,0.12)'
+}}
             >
 
                 <div>
@@ -301,7 +301,7 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                 <span
                     className="text-[10px] font-semibold"
                     style={{
-                        color: '#137F57'
+                       color: '#1565C0'
                     }}
                 >
                     38% left
@@ -315,7 +315,7 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
                 whileHover={{
                     x: 2,
                     boxShadow:
-                        '0 5px 14px rgba(26,158,109,0.12)'
+    '0 5px 14px rgba(21,101,192,0.12)'
                 }}
 
                 whileTap={{
@@ -341,24 +341,24 @@ export default function ContinueLearningCard({ isNewStudent = false }) {
 
                 style={{
                     background:
-                        'rgba(26,158,109,0.07)',
+    'rgba(21,101,192,0.07)',
 
-                    border:
-                        '1px solid rgba(26,158,109,0.18)',
+border:
+    '1px solid rgba(21,101,192,0.18)',
 
-                    color:
-                        '#137F57'
+color:
+    '#0D47A1'
                 }}
 
                 onMouseEnter={e => {
-                    e.currentTarget.style.background =
-                        'rgba(26,158,109,0.12)'
-                }}
+    e.currentTarget.style.background =
+        'rgba(21,101,192,0.12)'
+}}
 
-                onMouseLeave={e => {
-                    e.currentTarget.style.background =
-                        'rgba(26,158,109,0.07)'
-                }}
+onMouseLeave={e => {
+    e.currentTarget.style.background =
+        'rgba(21,101,192,0.07)'
+}}
             >
 
                 Continue with Tutor

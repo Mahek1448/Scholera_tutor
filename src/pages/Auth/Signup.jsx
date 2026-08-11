@@ -80,7 +80,7 @@ export default function Signup() {
 
             {/* Left panel */}
             <div className="hidden lg:flex flex-col justify-between w-[420px] flex-shrink-0 p-10 relative"
-                style={{ background: '#1A3C34', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
+                style={{ background: '#1A237E', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
                 <div>
                     <div className="flex items-center gap-3 mb-12">
                         <div className="w-9 h-9 rounded-xl bg-primary-500 flex items-center justify-center shadow-glow-sm">
@@ -149,7 +149,7 @@ export default function Signup() {
                                 placeholder="Your name"
                                 className="w-full px-3.5 py-3 rounded-xl text-sm outline-none transition-all"
                                 style={{ background: '#FDFAF6', border: '1px solid #D5CBC0', color: '#1C1917' }}
-                                onFocus={e => e.target.style.borderColor = '#1A9E6D'}
+                                onFocus={e => e.target.style.borderColor = '#1565C0'}
                                 onBlur={e => e.target.style.borderColor = '#D5CBC0'}
                                 autoComplete="name"
                             />
@@ -166,7 +166,7 @@ export default function Signup() {
                                 placeholder="you@university.edu"
                                 className="w-full px-3.5 py-3 rounded-xl text-sm outline-none transition-all"
                                 style={{ background: '#FDFAF6', border: '1px solid #D5CBC0', color: '#1C1917' }}
-                                onFocus={e => e.target.style.borderColor = '#1A9E6D'}
+                                onFocus={e => e.target.style.borderColor = '#1565C0'}
                                 onBlur={e => e.target.style.borderColor = '#D5CBC0'}
                                 autoComplete="email"
                             />
@@ -184,7 +184,7 @@ export default function Signup() {
                                     placeholder="Min. 6 characters"
                                     className="w-full px-3.5 py-3 pr-11 rounded-xl text-sm outline-none transition-all"
                                     style={{ background: '#FDFAF6', border: '1px solid #D5CBC0', color: '#1C1917' }}
-                                    onFocus={e => e.target.style.borderColor = '#1A9E6D'}
+                                    onFocus={e => e.target.style.borderColor = '#1565C0'}
                                     onBlur={e => e.target.style.borderColor = '#D5CBC0'}
                                     autoComplete="new-password"
                                 />

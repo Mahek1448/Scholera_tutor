@@ -12,7 +12,7 @@ const UPCOMING = [
 
 export default function TopicsLeftCard({ newStudent = false }) {
     const navigate = useNavigate()
-    
+
 
     return (
         <motion.div
@@ -27,13 +27,13 @@ export default function TopicsLeftCard({ newStudent = false }) {
                     <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>{newStudent ? 0 : UPCOMING.length} topics not yet covered</p>
                 </div>
                 <div className="w-7 h-7 rounded-full flex items-center justify-center"
-                    style={{ background: 'rgba(196,98,45,0.1)', border: '1px solid rgba(196,98,45,0.25)' }}>
-                    <Clock size={13} color="#C4622D" />
+                    style={{ background: 'rgba(21,101,192,0.10)', border: '1px solid rgba(21,101,192,0.20)' }}>
+                    <Clock size={13} color="#1565C0" />
                 </div>
             </div>
 
             <div className="space-y-1.5">
-                { UPCOMING.map((topic, i) => (
+                {UPCOMING.map((topic, i) => (
                     <motion.button
                         key={i}
                         whileHover={{ x: 2 }}
