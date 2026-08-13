@@ -192,7 +192,7 @@ export default function Tutor() {
                                     whileHover={{ scale: 1.02, y: -1 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => handleSuggestion(s)}
-                                    className="flex items-start gap-3 p-3.5 bg-[var(--box)] border border-border hover:border-primary-300 hover:bg-primary-50 rounded-xl text-left group transition-all shadow-card"
+                                    className="flex items-start gap-3 p-3.5 bg-[var(--box)] border border-border hover:border-primary-300 hover:bg-[var(--onhovernotes)] rounded-xl text-left group transition-all shadow-card"
                                 >
                                     <div className="w-7 h-7 rounded-lg bg-primary-50 border border-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary-100 transition-colors">
                                         <s.icon size={14} className="text-primary-500" />

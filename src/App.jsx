@@ -6,7 +6,7 @@ import Tutor from './pages/Tutor/Tutor'
 import Notes from './pages/Notes/Notes'
 import Revision from './pages/Revision/Revision'
 import Login from './pages/Auth/Login'
-import Signup from './pages/Auth/Signup'
+
 
 function isLoggedIn() {
     try { return !!localStorage.getItem('scholera_current_user') } catch { return false }
@@ -23,7 +23,7 @@ export default function App() {
         <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
                 <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
+              
                 <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
                     <Route path="/" element={<Home />} />
                     <Route path="/tutor" element={<Tutor />} />

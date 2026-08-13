@@ -26,17 +26,22 @@
   --color-review: #9900FF;
   --color-review-soft: rgba(153, 0, 255, 0.10);
   --color-review-light: rgba(226, 201, 255, 0.42);
+  --button-hover:rgb(100 181 246 / var(--tw-border-opacity, 1));
+  --onhovernotes:#e7f2fc;
+  --revision1:#a8deff9e;
+  --revision2:#a8deff9e;
 }
 
 /* ─── CSS Variables: Dark Theme ──────────────────────────────────────────── */
 .dark {
   --bg: #141210;
-
+  --revision1:rgba(0,0,0,0.62);
+  --revision2:black;
   --surface: #1C1915;
   --surface-2: #252118;
   --surface-3: #2E291F;
   --box:#10152a;
-
+  --onhovernotes:#031f62;
   --border: #3A342A;
   --border-light: #443D31;
 

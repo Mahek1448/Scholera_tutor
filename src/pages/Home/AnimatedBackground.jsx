@@ -7,9 +7,9 @@ const SYMBOLS = [
 ]
 
 const COLORS = [
-    'rgba(21,101,192,',  // blue primary
-    'rgba(153,0,255,',   // purple review
-    'rgba(100,181,246,', // light blue
+    'rgba(21,101,192,',  
+    'rgba(153,0,255,',   
+    'rgba(100,181,246,', 
 ]
 
 export default function AnimatedBackground() {

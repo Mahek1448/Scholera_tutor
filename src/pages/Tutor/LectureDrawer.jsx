@@ -39,7 +39,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                             <BookOpen size={15} className="text-primary-500" />
                         </div>
                         <div>
-                            <div className="text-sm font-semibold text-text-primary">
+                            <div className="text-sm font-semibold text-black">
                                 {lecture?.title || citation?.lecture?.replace('Week ', 'Week ')}
                             </div>
                             <div className="text-xs text-text-muted flex items-center gap-1.5">
@@ -104,7 +104,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                             </div>
 
                             {/* Title */}
-                            <h2 className="text-lg font-bold text-text-primary mb-4 leading-tight">
+                            <h2 className="text-lg font-bold text-black mb-4 leading-tight">
                                 {currentSlide.title}
                             </h2>
 
@@ -124,7 +124,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                                                 initial={{ opacity: 0, x: -8 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: 0.05 * i }}
-                                                className="flex gap-2.5 text-sm text-text-secondary leading-relaxed"
+                                                className="flex gap-2.5 text-sm text-black leading-relaxed"
                                             >
                                                 <div className="w-1.5 h-1.5 rounded-full bg-primary-400 mt-2 flex-shrink-0" />
                                                 <span>{b}</span>
@@ -176,7 +176,7 @@ export default function LectureDrawer({ lecture, slide, citation, onClose }) {
                             {currentSlide.notes && (
                                 <div className="bg-amber-50 rounded-xl p-4 border border-amber-100" style={{backgroundColor:"rgb(255 242 235)"}}>
                                     <div className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-2">Professor Notes</div>
-                                    <p className="text-xs text-text-secondary leading-relaxed">{currentSlide.notes}</p>
+                                    <p className="text-xs text-black leading-relaxed">{currentSlide.notes}</p>
                                 </div>
                             )}
                         </motion.div>

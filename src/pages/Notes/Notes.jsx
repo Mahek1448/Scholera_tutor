@@ -151,8 +151,8 @@ export default function Notes() {
                                         whileHover={{ x: 2 }}
                                         onClick={() => setSelected(note)}
                                         className={`w-full text-left flex items-start gap-2 px-2 py-2 rounded-lg mb-0.5 group transition-colors ${selected?.id === note.id
-                                            ? 'bg-primary-50 border border-primary-200'
-                                            : 'hover:bg-surface-2 border border-transparent'
+                                            ? 'bg-[var(--onhovernotes)] border border-primary-200'
+                                            : 'hover:bg-[var(--onhovernotes)] border border-transparent'
                                             }`}
                                     >
                                         <FileText size={12} className="text-text-muted mt-0.5 flex-shrink-0" />
