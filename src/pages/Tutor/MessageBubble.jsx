@@ -48,7 +48,7 @@ export default function MessageBubble({ message, onRetry, onSave, onConceptClick
 
             {/* Content card */}
             <div className="flex-1 min-w-0">
-                <div className={`bg-white rounded-2xl rounded-tl-md border border-border shadow-card p-4 ${message.error ? 'border-rose-200 bg-rose-50' : ''}`}>
+                <div className={`bg-[var(--box)] rounded-2xl rounded-tl-md border border-border shadow-card p-4 ${message.error ? 'border-rose-200 bg-rose-50' : ''}`}>
                     {message.error && !message.content ? (
                         <div className="text-sm text-rose-600">{message.error}</div>
                     ) : (

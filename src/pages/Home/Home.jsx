@@ -6,7 +6,7 @@ import TopicsLeftCard from './TopicsLeftCard'
 import ContinueLearningCard from './ContinueLearningCard'
 import TodayProgressCard from './TodayProgressCard'
 import TutorFAB from './TutorFAB'
-import AnimatedBackground from './AnimatedBackground'
+
 
 
 const pageVariants = {
@@ -74,8 +74,7 @@ export default function Home() {
             style={{ background: 'var(--bg)' }}
         >
 
-            {/* Animated background */}
-            <AnimatedBackground />
+     
 
 
             {/* Content */}

@@ -17,7 +17,7 @@ function SavedAnswerCard({ answer, idx }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 * idx }}
-            className="bg-white rounded-2xl border border-border overflow-hidden shadow-card"
+            className="bg-[var(--box)] rounded-2xl border border-border overflow-hidden shadow-card"
         >
             {/* Header */}
             <button
@@ -77,11 +77,11 @@ function LectureSummaryCard({ lecture, idx }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.08 * idx }}
-            className="bg-white rounded-2xl border border-border overflow-hidden shadow-card"
+            className="bg-[var(--box)] rounded-2xl border border-border overflow-hidden shadow-card"
         >
             <button
                 onClick={() => setExpanded(!expanded)}
-                className="w-full flex items-start gap-3 p-5 text-left hover:bg-primary-50 transition-colors"
+                className="w-full flex items-start gap-3 p-5 text-left  transition-colors"
             >
                 <div className="w-10 h-10 rounded-xl bg-primary-50 border border-primary-200 flex items-center justify-center flex-shrink-0">
                     <span className="text-primary-700 font-bold text-sm">W{lecture.week}</span>

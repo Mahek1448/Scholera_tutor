@@ -8,6 +8,7 @@
   --surface: #FDFAF6;
   --surface-2: #F1EBE3;
   --surface-3: #E8DDD3;
+  --box:white;
   --border: #D5CBC0;
   --border-light: #E0D6CC;
 
@@ -30,22 +31,33 @@
 /* ─── CSS Variables: Dark Theme ──────────────────────────────────────────── */
 .dark {
   --bg: #141210;
+
   --surface: #1C1915;
   --surface-2: #252118;
   --surface-3: #2E291F;
+  --box:#10152a;
+
   --border: #3A342A;
   --border-light: #443D31;
 
-  --text-primary: #F0EAE0;
-  --text-secondary: #C4BBB0;
-  --text-muted: #8C837A;
+  --text-primary: #F5F5F5;
+  --text-secondary: #D1D1D1;
+  --text-muted: #A3A3A3;
 
   --color-primary: #42A5F5;
+  --color-primary-dark: #1976D2;
+  --color-primary-light: #90CAF9;
+
+  --color-blue-soft: #AEDBFF;
+  --color-blue-pale: #CFE9FF;
+
   --color-review: #C17AFF;
-  --surface: #1a1917;
-    --text-primary: #f5f5f5;
-    --text-secondary: #d1d1d1;
-    --text-muted: #a3a3a3;
+  --color-review-soft: rgba(193, 122, 255, 0.14);
+  --color-review-light: rgba(193, 122, 255, 0.25);
+}
+body
+{
+  cursor: pointer;
 }
 
 @layer base {

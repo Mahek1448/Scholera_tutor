@@ -27,7 +27,7 @@ function scoreToColor(score) {
             bg: 'rgba(21,101,192,0.85)',
             text: '#FFFFFF',
             label: 'Strong',
-            labelColor: '#FFFFFF'
+            labelColor: '#0D47A1'
         }
     }
 
@@ -45,7 +45,7 @@ function scoreToColor(score) {
             bg: '#AEDBFF',
             text: '#0d47a1',
             label: 'Weak',
-            labelColor: '#7B1FA2'
+            labelColor: '#0D47A1'
         }
     }
 

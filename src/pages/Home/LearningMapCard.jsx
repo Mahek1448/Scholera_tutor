@@ -392,14 +392,22 @@ export default function LearningMapCard({ isNewStudent = false }) {
 
                                     background:
                                         isSelected
-                                            ? 'rgba(21,101,192,0.12)'
+                                            ? node.status === 'review'
+                                                ? 'rgba(123,31,162,0.18)'       // dark purple selection
+                                                : node.status === 'todo'
+                                                    ? 'rgba(153,0,255,0.16)'    // purple selection
+                                                    : 'rgba(21,101,192,0.16)'    // blue selection
                                             : isFirstTopic
                                                 ? 'rgba(21,101,192,0.06)'
                                                 : style.background,
 
                                     border:
                                         `1.5px solid ${isSelected
-                                            ? '#1565C0'
+                                            ? node.status === 'review'
+                                                ? '#7B1FA2'
+                                                : node.status === 'todo'
+                                                    ? '#9900FF'
+                                                    : '#1565C0'
                                             : isFirstTopic
                                                 ? 'rgba(21,101,192,0.35)'
                                                 : style.border
@@ -407,7 +415,11 @@ export default function LearningMapCard({ isNewStudent = false }) {
 
                                     boxShadow:
                                         isSelected
-                                            ? '0 0 0 3px rgba(21,101,192,0.15), 0 8px 20px rgba(0,0,0,0.06)'
+                                            ? node.status === 'review'
+                                                ? '0 0 0 3px rgba(123,31,162,0.15), 0 8px 20px rgba(0,0,0,0.06)'
+                                                : node.status === 'todo'
+                                                    ? '0 0 0 3px rgba(153,0,255,0.15), 0 8px 20px rgba(0,0,0,0.06)'
+                                                    : '0 0 0 3px rgba(21,101,192,0.15), 0 8px 20px rgba(0,0,0,0.06)'
                                             : '0 3px 10px rgba(0,0,0,0.03)'
                                 }}
                             >

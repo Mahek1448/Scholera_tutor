@@ -24,7 +24,7 @@ export default function Citation({ citations }) {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.05 * i }}
-                        className="flex items-center gap-2 bg-white border border-border rounded-xl px-3 py-2 group shadow-sm"
+                        className="flex items-center gap-2 bg-[var(--box)] border border-border rounded-xl px-3 py-2 group shadow-sm"
                     >
                         <div className="w-6 h-6 rounded-lg bg-primary-50 border border-primary-100 flex items-center justify-center flex-shrink-0">
                             <BookOpen size={11} className="text-primary-500" />

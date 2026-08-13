@@ -130,10 +130,14 @@ export default function Tutor() {
             className="flex flex-col h-full bg-background"
         >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border bg-white shadow-sm flex-shrink-0 gap-3">
+            <div className="flex items-center justify-between px-4 sm:px-6 py-3 border-b border-border bg-[var(--box)] shadow-sm flex-shrink-0 gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                     <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm flex-shrink-0">
-                        <Sparkles size={16} className="text-white" />
+                        <img
+        src="/logo.avif"
+        alt="AI Tutor"
+        className="w-full h-full object-cover brightness-0 invert"
+    />
                     </div>
                     <div className="min-w-0">
                         <h1 className="text-sm font-semibold text-text-primary">AI Tutor</h1>
@@ -166,11 +170,15 @@ export default function Tutor() {
                             transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
                             className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow mb-6"
                         >
-                            <Sparkles size={28} className="text-white" />
+                             <img
+        src="/logo.avif"
+        alt="AI Tutor"
+        className="w-full h-full object-cover brightness-0 invert"
+    />
                         </motion.div>
                         <h2 className="text-2xl font-bold text-text-primary mb-2">Ask your AI Tutor</h2>
                         <p className="text-text-secondary text-sm leading-relaxed mb-8">
-                            I only answer from your uploaded lecture materials.<br />
+                            I answer from your uploaded lecture materials.<br />
                             Every answer includes the exact lecture and slide it came from.
                         </p>
 
@@ -184,7 +192,7 @@ export default function Tutor() {
                                     whileHover={{ scale: 1.02, y: -1 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => handleSuggestion(s)}
-                                    className="flex items-start gap-3 p-3.5 bg-white border border-border hover:border-primary-300 hover:bg-primary-50 rounded-xl text-left group transition-all shadow-card"
+                                    className="flex items-start gap-3 p-3.5 bg-[var(--box)] border border-border hover:border-primary-300 hover:bg-primary-50 rounded-xl text-left group transition-all shadow-card"
                                 >
                                     <div className="w-7 h-7 rounded-lg bg-primary-50 border border-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-primary-100 transition-colors">
                                         <s.icon size={14} className="text-primary-500" />
