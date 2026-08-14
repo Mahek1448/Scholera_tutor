@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import conversationData from '../../../conversation.json'
 import {
     Home, MessageSquare, FileText, RotateCcw,
     ChevronLeft, ChevronRight, Plus, X, Sun, Moon, LogOut
@@ -34,83 +35,85 @@ export default function Sidebar({
 
     const firstName = user?.name?.split(' ')[0] || 'there'
 
-    
+
     const isNewStudent = user?.id === 'stu_0031'
     // Load conversation history
     useEffect(() => {
-        const loadConversation = async () => {
-            try {
-                const response = !isNewStudent? await fetch('/conversation.json'):await fetch('/conversation-empty.json')
-
-                if (!response.ok) {
-                    throw new Error('conversation.json not found')
-                }
-
-                const data = await response.json()
-
-                if (!data || !data.messages) {
-                    setRecentChats([])
-                    return
-                }
-
-                // Find first user message
-                const firstUserMessage = data.messages.find(
-                    message => message.role === 'user'
-                )
-                if (!firstUserMessage) {
-    setRecentChats([])
-    return
-}
-
-                // Create a short ChatGPT-style title
-                let title = 'New conversation'
-
-                if (firstUserMessage?.content) {
-                    const words = firstUserMessage.content
-                        .replace(/\n/g, ' ')
-                        .trim()
-                        .split(/\s+/)
-
-                    title = words.slice(0, 7).join(' ')
-
-                    if (words.length > 7) {
-                        title += '...'
-                    }
-                }
-
-                // Use conversation start date
-                const date = data.started_at
-                    ? new Date(data.started_at)
-                    : null
-
-                const formattedDate = date
-                    ? date.toLocaleDateString('en-IN', {
-                        day: 'numeric',
-                        month: 'short'
-                    })
-                    : ''
-
-                setRecentChats([
-                    {
-                        id: data.id,
-                        title,
-                        time: formattedDate,
-                        fullTitle: firstUserMessage?.content || ''
-                    }
-                ])
-
-            } catch (error) {
-                console.error(
-                    'Failed to load conversation history:',
-                    error
-                )
-
+    const loadConversation = () => {
+        try {
+            // New student should have no conversation history
+            if (isNewStudent) {
                 setRecentChats([])
+                return
             }
-        }
 
-        loadConversation()
-    }, [isNewStudent])
+            // Existing student → use imported conversation data
+            const data = conversationData
+
+            if (!data || !data.messages) {
+                setRecentChats([])
+                return
+            }
+
+            // Find first user message
+            const firstUserMessage = data.messages.find(
+                message => message.role === 'user'
+            )
+
+            if (!firstUserMessage) {
+                setRecentChats([])
+                return
+            }
+
+            // Create short conversation title
+            let title = 'New conversation'
+
+            if (firstUserMessage.content) {
+                const words = firstUserMessage.content
+                    .replace(/\n/g, ' ')
+                    .trim()
+                    .split(/\s+/)
+
+                title = words.slice(0, 7).join(' ')
+
+                if (words.length > 7) {
+                    title += '...'
+                }
+            }
+
+            // Conversation date
+            const date = data.started_at
+                ? new Date(data.started_at)
+                : null
+
+            const formattedDate = date
+                ? date.toLocaleDateString('en-IN', {
+                    day: 'numeric',
+                    month: 'short'
+                })
+                : ''
+
+            setRecentChats([
+                {
+                    id: data.id,
+                    title,
+                    time: formattedDate,
+                    fullTitle: firstUserMessage.content || ''
+                }
+            ])
+
+        } catch (error) {
+            console.error(
+                'Failed to load conversation history:',
+                error
+            )
+
+            setRecentChats([])
+        }
+    }
+
+    loadConversation()
+}, [isNewStudent])
 
     // Mobile sidebar
     if (isMobile) {
@@ -223,7 +226,7 @@ function SidebarContent({
                     className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-white font-bold"
                     style={{
                         background: '#1565C0',
-boxShadow: '0 4px 12px rgba(21,101,192,0.2)'
+                        boxShadow: '0 4px 12px rgba(21,101,192,0.2)'
                     }}
                 >
                     S
@@ -281,16 +284,16 @@ boxShadow: '0 4px 12px rgba(21,101,192,0.2)'
                     className={`w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl bg-primary-600 text-white hover:bg-primary-700 transition-all text-sm font-medium shadow-glow-sm ${collapsed ? 'justify-center' : ''
                         }`}
                     style={{
-    background: '#1565C0',
-    boxShadow: '0 4px 14px rgba(21,101,192,0.20)'
-}}
-onMouseEnter={e => {
-    e.currentTarget.style.background = '#0D47A1'
-}}
+                        background: '#1565C0',
+                        boxShadow: '0 4px 14px rgba(21,101,192,0.20)'
+                    }}
+                    onMouseEnter={e => {
+                        e.currentTarget.style.background = '#0D47A1'
+                    }}
 
-onMouseLeave={e => {
-    e.currentTarget.style.background = '#1565C0'
-}}
+                    onMouseLeave={e => {
+                        e.currentTarget.style.background = '#1565C0'
+                    }}
                 >
                     <Plus size={16} />
 
@@ -322,17 +325,17 @@ onMouseLeave={e => {
                                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all cursor-pointer ${collapsed ? 'justify-center' : ''
                                     }`}
                                 style={{
-                                   background: isActive
-    ? 'rgba(21,101,192,0.1)'
-    : 'transparent',
+                                    background: isActive
+                                        ? 'rgba(21,101,192,0.1)'
+                                        : 'transparent',
 
-border: isActive
-    ? '1px solid rgba(21,101,192,0.2)'
-    : '1px solid transparent',
+                                    border: isActive
+                                        ? '1px solid rgba(21,101,192,0.2)'
+                                        : '1px solid transparent',
 
-color: isActive
-    ? '#1565C0'
-    : 'var(--text-secondary)'
+                                    color: isActive
+                                        ? '#1565C0'
+                                        : 'var(--text-secondary)'
                                 }}
 
                                 onMouseEnter={e => {
@@ -360,8 +363,8 @@ color: isActive
                                 )}
 
                                 {isActive && !collapsed && (
-                                    <div className="ml-auto w-1.5 h-1.5 rounded-full" 
-                                     style={{ background: '#1565C0' }}/>
+                                    <div className="ml-auto w-1.5 h-1.5 rounded-full"
+                                        style={{ background: '#1565C0' }} />
                                 )}
 
                             </motion.div>
