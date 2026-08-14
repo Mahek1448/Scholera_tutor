@@ -101,6 +101,41 @@ http://localhost:5173
 
 Open the URL in your browser to run the application.
 
+## Deployment
+
+Scholera is deployed as a Vite-based frontend application.
+
+### Production Build
+
+To create a production build locally:
+
+```bash
+npm run build
+```
+
+The production files are generated inside the `dist` folder.
+
+### Deployment
+
+The project is deployed using Vercel.
+
+The deployment is automatically updated whenever changes are pushed to the GitHub repository.
+
+### Live Demo
+
+[Scholera – Live Demo](https://scholera-tutor-7q4e.vercel.app/)
+
+### Demo Accounts
+
+The application currently uses mock student data for demonstration.
+
+| Student ID | Account Type      | Password |
+|------------|--------------------|----------|
+| stu_0014   | Existing Student   | 123456   |
+| stu_0031   | New Student        | 123456   |
+
+The existing student account contains sample conversation history, while the new student account starts without previous conversations.
+
 ## What We Deliberately Left Out
 
 The current version focuses on the core learning experience and frontend functionality.
@@ -140,5 +175,7 @@ They were mainly used for:
 - Identifying and fixing implementation issues
 
 AI-generated suggestions were reviewed, tested, and modified before being incorporated into the project.
+
+Some AI suggestions were not suitable for the project's design or requirements and had to be changed or rejected. The final implementation decisions were made by the project team.
 
 More details are documented in `AI_USAGE.md`.
