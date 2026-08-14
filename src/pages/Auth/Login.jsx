@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Eye, EyeOff, ArrowRight, UserRound } from 'lucide-react'
+import conversationData from '../../../conversation.json'
+import conversationEmptyData from '../../../conversation-empty.json'
 
 const EDU_SYMBOLS = [
     '∑', '∇', 'π', 'θ', 'λ', 'f(x)', '1+1',
@@ -42,17 +44,8 @@ export default function Login() {
 
         try {
             // Load both demo student records
-            const [existingResponse, emptyResponse] = await Promise.all([
-                fetch('/conversation.json'),
-                fetch('/conversation-empty.json')
-            ])
-
-            if (!existingResponse.ok || !emptyResponse.ok) {
-                throw new Error('Could not load student data.')
-            }
-
-            const existingData = await existingResponse.json()
-            const emptyData = await emptyResponse.json()
+            const existingData = conversationData
+    const emptyData = conversationEmptyData
 
             const enteredId = studentId.trim().toLowerCase()
 
